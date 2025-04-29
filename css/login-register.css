@@ -1,0 +1,202 @@
+body{
+    margin: 0;
+    background-image: url(../images/FanKit/Backgrounds/Background-2.jpg);
+    background-size: cover;
+}
+@font-face {
+    font-family: 'Unfair';
+    src: url('../css/Unfair-Style2Rough.otf') format('opentype');
+
+}
+.main-font{
+    font-family: 'Unfair';
+}
+.back-ground{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+
+    width: 100%;
+    height: 980px;
+    z-index: -1;
+
+    margin: 0;
+}
+.container-pai{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+
+    box-shadow: 0px -1px 43px 9px rgba(255,255,255,0.18);
+    -webkit-box-shadow: 0px -1px 43px 9px rgba(255,255,255,0.18);
+    -moz-box-shadow: 0px -1px 43px 9px rgba(255,255,255,0.18);
+}
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.76);
+    height: 500px;
+    width: 300px;
+    padding: 70px;
+    padding-bottom: 60px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    z-index: 2;
+}
+.home-button-register{
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding-top: 50px;
+}
+.home-button-register p{
+    margin: 0;
+    font-family: 'Unfair';
+    font-size: 23px;
+    text-decoration: underline;
+    color: rgba(255, 255, 136, 0.788);
+}
+.home-button{
+    text-align: left;
+    width: 100%;
+    margin: 0;
+    padding-bottom: 50px;
+}
+.home-button p{
+    margin: 0;
+    font-family: 'Unfair';
+    font-size: 23px;
+    text-decoration: underline;
+    color: rgba(255, 255, 136, 0.788);
+}
+.card-login{
+    height: 100%;
+    width: 800px;
+    background-image: url(../images/FanKit/Artwork/At\ gun\ point.jpg);
+    background-size: cover;
+    background-position: -280px;
+
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+.card-regis{
+    height: 100%;
+    width: 800px;
+    background-image: url(../images/FanKit/Artwork/Hunters\ in\ the\ swamp.jpg);
+    background-size: cover;
+    background-position: -280px;
+
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+.login-campo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    height: 100%;
+
+    bottom: 10px;
+    gap: 30px;
+    margin: 0;
+    margin-top: 50px;
+
+    margin-bottom: 50px;
+}
+.login-campo .title{
+    height: fit-content;
+    margin-bottom: 30px;
+}
+.login-campo h1{
+    color: white;
+    text-align: center;
+    font-family: 'Unfair';
+    font-size: 60px;
+    margin: 0;
+}
+.line{
+    width: 320px;
+    height: 2px;
+    background: -webkit-gradient(linear,left top, right top,from(transparent),color-stop(50%, #dae2e4),to(transparent));
+    background: linear-gradient(to right,transparent 0%,#fff 50%,transparent 100%);
+}
+.campo input{
+    border: solid 1px rgb(221, 218, 218);
+    border-radius: 7px;
+    background-color: rgba(0, 0, 0, 0.301);
+
+    width: 300px;
+    height: 40px;
+
+    font-size: 18px;
+    font-family:courier;
+    color: white;
+    padding-left: 30px;
+}
+.icon-email {
+    background: url(../images/email-envelope-white-icon.png) no-repeat left;
+    background-size: 21px;
+    background-position: 3px;
+}
+.icon-user {
+    background: url(../images/user-ico.png) no-repeat left;
+    background-size: 25px;
+}
+.icon-pssw{
+    background: url(../images/passw-ico.png) no-repeat left;
+    background-size: 25px;
+
+}
+.campo{
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    
+}
+.campo p{
+    color: rgba(255, 255, 136, 0.788);
+    text-align: right;
+    text-decoration:underline;
+    font-size: 15px;
+    margin: 3px;
+    font-family: helvetica;
+}
+.login-campo button{
+    width: 200px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+
+    color: white;
+    background-color: rgba(255, 0, 0, 0.911);
+
+    font-family: 'Unfair';
+    font-size: 30px;
+    margin-top: 20px;
+}
+.login-campo button:hover{
+    background-color: rgba(187, 3, 3, 0.911);
+    transition: all 0.3s;
+}
+.button-campo{
+    display: flex;
+    flex-direction: column;
+   
+}
+.button-campo p{
+    color: rgba(255, 255, 136, 0.788);
+    text-align: right;
+    text-decoration:underline;
+    font-size: 13px;
+    margin: 3px;
+    font-family: helvetica;
+    text-align: center;
+}
