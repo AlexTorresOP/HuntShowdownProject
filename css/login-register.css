@@ -129,39 +129,52 @@ body{
     background: linear-gradient(to right,transparent 0%,#fff 50%,transparent 100%);
 }
 .campo input{
-    border: solid 1px rgb(221, 218, 218);
+    border: none;
     border-radius: 7px;
-    background-color: rgba(0, 0, 0, 0.301);
 
-    width: 300px;
     height: 40px;
 
     font-size: 18px;
     font-family:courier;
     color: white;
     padding-left: 30px;
+    outline: none;
 }
 .icon-email {
     background: url(../images/email-envelope-white-icon.png) no-repeat left;
     background-size: 21px;
     background-position: 3px;
+    width: 300px;
 }
 .icon-user {
     background: url(../images/user-ico.png) no-repeat left;
     background-size: 25px;
+    width: 300px;
 }
 .icon-pssw{
     background: url(../images/passw-ico.png) no-repeat left;
     background-size: 25px;
-
+    padding-right: 40px;
+    width: 262px;
+}
+.icon-eye{
+    height: 40px;
+    width: 40px;
+    
 }
 .campo{
     text-align: left;
     display: flex;
-    flex-direction: column;
-    
+    flex-direction: row;
+    width: 330px;
+    border: solid 1px rgb(255, 255, 255);
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.301);
 }
-.campo p{
+.passw-rec p{
+    width: 334px
+}
+.passw-rec p{
     color: rgba(255, 255, 136, 0.788);
     text-align: right;
     text-decoration:underline;
