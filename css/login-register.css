@@ -171,8 +171,13 @@ body{
     border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.301);
 }
-.passw-rec p{
-    width: 334px
+.passw-rec {
+    width: 340px;
+    display: flex;
+    flex-direction: row;  
+    align-items: center;
+    justify-content: space-around;  
+    gap: 60px;
 }
 .passw-rec p{
     color: rgba(255, 255, 136, 0.788);
@@ -181,6 +186,20 @@ body{
     font-size: 15px;
     margin: 3px;
     font-family: helvetica;
+}
+.passw-rec input{
+    height: 18px;
+    width: 18px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.671);
+
+}
+.passw-rec div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: helvetica;
+    color: white;
 }
 .login-campo button{
     width: 200px;
