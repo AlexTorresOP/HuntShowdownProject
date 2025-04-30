@@ -60,8 +60,17 @@ body{
     margin: 0;
     font-family: 'Unfair';
     font-size: 23px;
-    text-decoration: underline;
+    width: fit-content;
+    text-decoration: none;
     color: rgba(255, 255, 136, 0.788);
+}
+.home-button-register a{
+    text-decoration: none;
+}
+.home-button-register p:hover{
+    font-size: 24px;
+    color: rgb(209, 20, 20);
+    transition: all 0.5s;
 }
 .home-button{
     text-align: left;
@@ -73,8 +82,17 @@ body{
     margin: 0;
     font-family: 'Unfair';
     font-size: 23px;
-    text-decoration: underline;
+    width: fit-content;
+    text-decoration: none;
     color: rgba(255, 255, 136, 0.788);
+}
+.home-button a{
+    text-decoration: none;
+}
+.home-button p:hover{
+    font-size: 24px;
+    color: rgb(209, 20, 20);
+    transition: all 0.5s;
 }
 .card-login{
     height: 100%;
@@ -135,7 +153,7 @@ body{
     height: 40px;
 
     font-size: 18px;
-    font-family:courier;
+    font-family:helvetica;
     color: white;
     padding-left: 30px;
     outline: none;
@@ -177,7 +195,7 @@ body{
     flex-direction: row;  
     align-items: center;
     justify-content: space-around;  
-    gap: 60px;
+    gap: 40px;
 }
 .passw-rec p{
     color: rgba(255, 255, 136, 0.788);
@@ -187,12 +205,16 @@ body{
     margin: 3px;
     font-family: helvetica;
 }
+input[type="checkbox"]{
+    appearance: auto;
+    border: none;
+    border-radius: 50%;
+    accent-color: rgba(255, 0, 0, 0.911);
+}
 .passw-rec input{
     height: 18px;
     width: 18px;
     border: none;
-    background-color: rgba(255, 255, 255, 0.671);
-
 }
 .passw-rec div{
     display: flex;
