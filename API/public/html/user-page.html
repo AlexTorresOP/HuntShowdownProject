@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/user-page.css">
-    <title>Document</title>
+    <title>Hunt - Dashboard</title>
 </head>
 <body>
     <div class="container_pai">
@@ -14,33 +14,66 @@
                 <div class="line"></div>
             </div>
             <div class="user_nav">
-
+              <a href="./user-page.html">
+                <div class="nav_button main_font">DASHBOARD</div>
+              </a>
+              <a href="../index.html">
+                <div class="nav_button main_font">HOME</div>
+              </a>
+              <a href="./arsenal.html">
+                <div class="nav_button main_font">ARSENAL</div>
+              </a>
+              <a href="./user-favoritos.html">
+                <div class="nav_button main_font">FAVORITOS</div>
+              </a>
             </div>
         </div>
+
         <div class="content_container">
             <div class="dashboard_container">
+
                 <div class="dashboard_title main_font">DASHBOARD - AS ARMAS MAIS POPULARES</div>
                 <div class="line_white"></div>
                 <div class="dashboard_content">
+
+                    <div class="container_kpis">
+                      <div class="box_kpi">
+                        <h4>Total de Usuarios que favoritaram armas</h4>
+                        <h1 class="usuarios" id="usuario_total"></h1>
+                      </div>
+                      <div class="box_kpi">
+                        <h4>Média de Preço das armas mais favoritadas</h4>
+                        <h1 class="mediaPreço">30</h1>
+                      </div>
+                      <div class="box_kpi">
+                        <h4>Tipo de arma mais favoritada</h4>
+                        <h1 class="tipoMais">Rifle</h1>
+                      </div>
+                      <div class="box_kpi">
+                        <h4>Tipo de arma menos favoritada</h4>
+                        <h1 class="tipoMenos">Pistola</h1>
+                      </div>
+                    </div>
                      <div class="container_dash_um">
-                        <div class="grafico_um"></div>
+                        <div class="grafico_um">
+                          <h1>TOP 3 - ARMAS MAIS POPULARES</h1>
+                          <div id="top_3">
+                          </div>
+                        </div>
                         <div class="grafico_dois">
-                            <div class="grafico_dois_kpis" id="munições_favoritas">
-
-                            </div>
-                            <div class="grafico_dois_pizza">
-
-                            </div>
+                          <div class="grafico_dois_pizza" ><canvas id="munições_favoritas_pizza"></canvas></div>
+                            <div class="grafico_dois_kpis" id="munições_favoritas"></div>
                         </div>
                      </div>
-
 
                      <div class="container_dash_dois">
                         <div class="grafico_favoritos">
-                            <canvas id="grafico_favoritos" class="total_favoritos" style="height: 220px;"></canvas>
+                            <canvas id="grafico_favoritos" class="total_favoritos" style="height: 180px;"></canvas>
                         </div>
                      </div>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -50,8 +83,42 @@
     
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-
 user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
+
+fetch("/dashboard/listarUsuarios")
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na reposta da listagem: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(usuarios => {
+      console.log('usuarios que favoritaram:', usuarios);
+      var usuariosTotais = document.getElementById('usuario_total')
+      usuariosTotais.innerText = usuarios[0].UsuariosTotais
+    })
+
+
+fetch("/dashboard/listar")
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na reposta da listagem: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(lista => {
+      console.log('Lista das Tres Armas mais listadas:', lista);
+      for(var i = 0 ; i < lista.length;i++){
+        top_3.innerHTML += `
+        <div class="arma_container">
+                              <h1>${i + 1}° - ${lista[i].nome}</h1>
+                              <img src="${lista[i].imagem}" alt="">
+        </div>
+        `
+      }
+    })
+
+
 fetch("/dashboard/municao")
     .then(res => {
         if(!res.ok) {
@@ -59,17 +126,57 @@ fetch("/dashboard/municao")
         }
         return res.json();
     })
-    .then(res =>{
-        console.log('Listando Tipos De Munição:');
+    .then( data =>{
+        console.log('Listando Tipos De Munição:', data);
         var munições = document.getElementById('munições_favoritas')
         var i = 0
-        while (res.length)
+        while (i < data.length)
        { 
-        munições.innerHTML += `${res[i].tipoMunição} : ${res[i].TipoMuniçãoMaisFavoritadas} <br>`
+        munições.innerHTML += `<div class="kpi_dois_linha"><h3>${i + 1}º ${ data[i].tipoMunição} - </h3><p> ${ data[i].TipoMuniçãoMaisFavoritadas} ARMAS </p><br></div>`
         i++
        }
-    })
+       const tipoMunição = data.map(item => item.tipoMunição)
+       const totalMunição = data.map(item => item.TipoMuniçãoMaisFavoritadas)
+       console.log(totalMunição)
 
+       const ctxPizza = document.getElementById('munições_favoritas_pizza').getContext('2d');
+       const tipoMuniçãoPizza = new Chart(ctxPizza, {
+        type: 'pie',
+        data: {
+          labels: tipoMunição,
+          datasets: [{
+            label: 'Tipos De Munição',
+            data:  totalMunição,
+
+            backgroundColor:[ '#3eacff', '#ff5833','#d6d600','#04ff00','#ff8c12'],
+          }]
+        },
+        options: {
+          responsive: true,
+            plugins: {
+              legend: {
+                position: 'top',
+                labels:{
+                  color: 'white',
+                  font:{
+                    size: 16,
+                    family: 'Unfair',
+                    }
+                }
+              },
+              title: {
+                display: true,
+                color: 'white',
+                text: 'Tipos Munição - Armas Mais Favoritadas',
+                font:{
+                  size: 24,
+                  family: 'Unfair'
+                }
+              }
+          }
+        },
+      })
+    })
 fetch("/dashboard/favoritas")
   .then(res => {
     if (!res.ok) {
@@ -83,9 +190,9 @@ fetch("/dashboard/favoritas")
     const nomesArmas = data.map(item => item.nome);
     const totais = data.map(item => item.TotalFavoritadas);
 
-    const ctx = document.getElementById('grafico_favoritos').getContext('2d');
+    const ctxFavoritosPizza = document.getElementById('grafico_favoritos').getContext('2d');
 
-    const meuGrafico = new Chart(ctx, {
+  const favoritosBarras = new Chart(ctxFavoritosPizza, {
   type: 'bar',
   data: {
     labels: nomesArmas,
