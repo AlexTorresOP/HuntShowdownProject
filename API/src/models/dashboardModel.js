@@ -23,7 +23,6 @@ function mediaPreco(){
     return database.executar(instrucao)
 }
 
-
 function favoritas() {
     var instrucao = `
         SELECT af.idArma, a.nome, COUNT(*) AS TotalFavoritadas 

@@ -22,6 +22,17 @@ function listarUsuarios(req,res){
         })
 }
 
+function mediaPreco(req,res){
+    dashboardModel.mediaPreco()
+    .then(resultado => {
+        res.status(200).json(resultado)
+    })
+    .catch(erro => {
+        console.error("Erro ao puxar média", erro);
+        res.status(500).json({erro: "Erro interno no servidor"})
+    })
+}
+
 
 function municao(req,res) {
     dashboardModel.municao()
@@ -51,5 +62,6 @@ module.exports = {
     favoritas,
     municao,
     listar,
-    listarUsuarios
+    listarUsuarios,
+    mediaPreco
 };

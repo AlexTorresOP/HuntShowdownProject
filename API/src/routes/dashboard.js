@@ -14,6 +14,10 @@ router.get("/listar", function (req,res){
 router.get("/listarUsuarios", function (req,res){
     dashboardController.listarUsuarios(req,res);
 })
+router.get("/mediaPreco", function (req,res){
+    dashboardController.mediaPreco(req,res);
+})
+
 
 
 module.exports = router;

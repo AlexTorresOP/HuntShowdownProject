@@ -43,7 +43,7 @@
                       </div>
                       <div class="box_kpi">
                         <h4>Média de Preço das armas mais favoritadas</h4>
-                        <h1 class="mediaPreço">30</h1>
+                        <h1 class="mediaPreço" id="media_preco">30</h1>
                       </div>
                       <div class="box_kpi">
                         <h4>Tipo de arma mais favoritada</h4>
@@ -98,6 +98,18 @@ fetch("/dashboard/listarUsuarios")
       usuariosTotais.innerText = usuarios[0].UsuariosTotais
     })
 
+fetch("/dashboard/mediaPreco")
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na reposta da media: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(media => {
+      console.log('Media Das Armas Favoritadas:', media);
+      var mediaPreco = document.getElementById('media_preco')
+      mediaPreco.innerHTML = `${media[0].MediaGeralArmasFavoritadas }<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="45px" height="45px">`
+    })
 
 fetch("/dashboard/listar")
     .then(res => {

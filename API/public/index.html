@@ -32,9 +32,11 @@
                 </nav>
                 </div>
 
-                <a href="./html/login-page.html">
+                <div id="botãoLoginUserPage">
+                <a href="./html/login-page.html" style="text-decoration: none;">
                     <div class="login_button main_font">Login</div>
                 </a>
+                </div>
 
             </div>
 
@@ -53,8 +55,18 @@
 
     <div class="banner_footer"></div>
 
-    
-
 </body>
 
 </html>
+<script>
+    if(sessionStorage.ID_USUARIO !=undefined){
+       var botaoLogin = document.getElementById('botãoLoginUserPage')
+       botaoLogin.innerHTML =""
+       botaoLogin.innerHTML = `
+                <a href="./html/user-page.html" style="text-decoration: none;">
+                    <div class="login_button main_font">SEU PERFIL</div>
+                </a>
+       `
+    }
+
+</script>
