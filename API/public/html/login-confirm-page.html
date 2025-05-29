@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/register-confrm.css">
+    <title>Hunt - M&W Registred</title>
+    <link rel="shortcut icon" href="../images/page-icon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="back-ground">
+         <div class="container-pai">
+             <div class="confirm-container">
+                 <div class="confirm-campo">
+
+                    <div class="confirm-tittle">
+                        <span class="title">Bem Vindo!</span><br>
+                        <span id="usuario_nome_campo"></span>
+                        <div class="line"></div>
+                    </div>
+
+                    <div class="confirm-img"></div>
+                     
+
+                     <div class="redirect-campo">
+                        <p>Redirecionando em<span id="redirect"></span></p> 
+                     </div>
+                     
+                 </div>
+             </div>
+         </div>
+     </div>
+ </body>
+</html>
+
+<script>
+    usuario_nome_campo.innerHTML += ` <span class="nome_usuario">${sessionStorage.NOME_USUARIO}</span>`
+        var contador = 6
+
+        window.onload = function cont() {
+            if (contador > 0) {
+            
+                contador -= 1 ;
+                 redirect.innerHTML = ` ${contador}...`;
+                setTimeout(cont,1000)
+            } else {
+                window.location.href = "arsenal.html"
+            }
+        }
+        
+
+        
+</script>

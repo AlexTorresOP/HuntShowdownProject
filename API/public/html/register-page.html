@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/login-register.css">
+    <title>Hunt - M&W Register</title>
+    <link rel="shortcut icon" href="../images/page-icon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="back-ground">
+         <div class="container-pai">
+            <div class="card-regis"></div>
+             <div class="container">
+                <div class="home-button-register">
+                    <a href="../index.html"><p>⭠ HOME</p></a>
+                </div>
+                 <div class="login-campo">
+
+                    <div class="title">
+                        <h1>Sign In</h1>
+                        <div class="line"></div>
+                    </div>
+                     <div class="campo">
+                         <input type="text" placeholder="Email" class="icon-email" id="email_input">
+                     </div>
+                     <div class="campo">
+                        <input type="text" placeholder="Nome de Usuario" class="icon-user" id="nome_input">
+                    </div>
+                     <div class="campo">
+                        <input type="password" placeholder="Senha" class="icon-pssw" id="senha_input">
+                        <eye id="eye"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd1()"></eye>
+                     </div>
+                     <div class="campo">
+                        <input type="password" placeholder="Repita a senha" class="icon-pssw" id="confirmacao_senha_input">
+                        <eye id="eye2"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd"></eye>
+                     </div>
+
+                     <div class="button-campo">
+                        <button onclick="verificarEmail()">REGISTRAR</button>
+                        <a href="./login-page.html"><p>Já possui conta? Entre</p></a>
+                     </div>
+                     
+                 </div>
+             </div>
+         </div>
+     </div>
+ </body>
+ <script>
+    function show_passwd1(){
+        const input = document.getElementById('senha_input');
+        const icone = document.querySelector('.icon-eye');
+
+        if (input.type === 'password') {
+        input.type = 'text';
+        eye.innerHTML = '<img src="./images/open eye.png" alt="" class="icon-eye" onclick="show_passwd1()" id="eye-psswd">';
+        } else {
+        input.type = 'password';
+        eye.innerHTML = '<img src="./images/close eye.png" alt="" class="icon-eye" onclick="show_passwd1()" id="eye-psswd">';
+        }
+    }
+    function show_passwd2(){
+        const input = document.getElementById('confirmacao_senha_input');
+        const icone = document.querySelector('.icon-eye');
+
+        if (input.type === 'password') {
+        input.type = 'text'
+        eye2.innerHTML = '<img src="./images/open eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd">';
+        } else {
+        input.type = 'password'
+        eye2.innerHTML = '<img src="./images/close eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd">';
+        }
+    }
+    function cadastrar() {
+    // aguardar();
+
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeVar = nome_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha_input.value;
+    var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+    // Verificando se há algum campo em branco
+    
+    if (emailVar == "" || 
+        nomeVar == "" || 
+        senhaVar == "" || 
+        confirmacaoSenhaVar == ""
+    )  {
+        return false;
+    }
+    // Enviando o valor da nova input
+    fetch("/usuarios/registrar", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar,
+        }),
+    })
+        .then(function (resposta){
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+            window.location = "register-confirm-page.html"
+            // limparFormulario();
+            // finalizarAguardar();
+        } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+        })
+        .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        // finalizarAguardar();
+        });
+
+    return false;
+    }
+
+    function verificarEmail() {
+    // aguardar();
+
+    var emailusuarioVar = email_input.value;
+
+    if (emailusuarioVar == "") {
+        // cardErro.style.display = "block"
+        // mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+        // finalizarAguardar();
+        return false;
+    }
+    else {
+        // setInterval(sumirMensagem, 5000)
+    }
+
+    console.log("FORM EMAIL: ", emailusuarioVar);
+
+    fetch("/usuarios/verificarEmail", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            emailServer: emailusuarioVar,
+        })
+    })
+
+    .then(function (resposta) {
+        console.log("ESTOU NO THEN DO verificarEmail()!")
+
+        if (resposta.ok) {
+            console.log(resposta);
+
+            resposta.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
+                sessionStorage.EMAIL_USUARIO_VERIFY = json.email;
+                 
+                if( sessionStorage.EMAIL_USUARIO_VERIFY == emailusuarioVar){
+                    console.log("Houve um erro ao tentar realizar o registro! EMAIL JÁ CADASTRADO!")
+                }
+                else {
+                    console.log("Email não existe no banco! Realizando Registro!");
+                    cadastrar()
+                }
+            });
+
+        } else {
+
+            console.log("Erro na Verificação!");
+
+            resposta.text().then(texto => {
+                console.error(texto);
+                // finalizarAguardar(texto);
+            });
+        }
+
+    }).catch(function (erro) {
+        console.log(erro);
+    })
+
+    return false;
+}
+
+ </script>
+</html>

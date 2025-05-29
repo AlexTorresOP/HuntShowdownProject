@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/user-page.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container_pai">
+        <div class="user_container">
+            <div class="user_title main_font">
+                <h1 id="user_name_place">BEM VINDO <br> <span class="user_nome"></span></h1>
+                <div class="line"></div>
+            </div>
+            <div class="user_nav">
+
+            </div>
+        </div>
+        <div class="content_container">
+            <div class="dashboard_container">
+                <div class="dashboard_title main_font">DASHBOARD - AS ARMAS MAIS POPULARES</div>
+                <div class="line_white"></div>
+                <div class="dashboard_content">
+                     <div class="container_dash_um">
+                        <div class="grafico_um"></div>
+                        <div class="grafico_dois">
+                            <div class="grafico_dois_kpis" id="munições_favoritas">
+
+                            </div>
+                            <div class="grafico_dois_pizza">
+
+                            </div>
+                        </div>
+                     </div>
+
+
+                     <div class="container_dash_dois">
+                        <div class="grafico_favoritos">
+                            <canvas id="grafico_favoritos" class="total_favoritos" style="height: 220px;"></canvas>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+    
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
+fetch("/dashboard/municao")
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na resposta: ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(res =>{
+        console.log('Listando Tipos De Munição:');
+        var munições = document.getElementById('munições_favoritas')
+        var i = 0
+        while (res.length)
+       { 
+        munições.innerHTML += `${res[i].tipoMunição} : ${res[i].TipoMuniçãoMaisFavoritadas} <br>`
+        i++
+       }
+    })
+
+fetch("/dashboard/favoritas")
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`Erro na resposta: ${res.status}`);
+    }
+    return res.json(); 
+  })
+  .then(data => {
+    console.log("Dados recebidos:", data);
+
+    const nomesArmas = data.map(item => item.nome);
+    const totais = data.map(item => item.TotalFavoritadas);
+
+    const ctx = document.getElementById('grafico_favoritos').getContext('2d');
+
+    const meuGrafico = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: nomesArmas,
+    datasets: [{
+      label: 'Favoritadas',
+      data: totais,
+      backgroundColor: 'yellow',
+      borderWidth: 1,
+      barPercentage: 0.8,
+      categoryPercentage: 1,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: 'Armas mais Favoritadas',
+        font: {
+          family: 'unfair',
+          size: 25,
+          weight: 'bold'
+        },
+        color: 'red'
+      }
+    },
+    scales: {
+        // FORMATANDO EIXO X
+      x: {
+        ticks: {
+          font: {
+            family: 'unfair', 
+            size: 13,
+            weight: 'bold',
+          },
+          color: 'white',
+          // DEIXANDO TEXTO RETO EM BAIXO DAS BARRAS
+          maxRotation: 0, 
+          minRotation: 0, 
+          autoSkip: false
+
+        }
+      },
+        // FORMATANDO EIXO Y
+        y: {
+        beginAtZero: true,
+        ticks: {
+        // TIRANDO DECIMAIS DO EIXO Y 
+        callback: function(value) {
+            if (Number.isInteger(value)) {
+            return value;
+            }
+            return null; 
+        },
+        stepSize: 1,
+        font: {
+            family: 'Courier New',
+            size: 12
+        },
+        color: '#666'
+        }
+    },
+    }
+  }
+});
+  })
+  
+  .catch(error => {
+    console.error("Erro ao carregar os dados:", error);
+  });
+
+</script>

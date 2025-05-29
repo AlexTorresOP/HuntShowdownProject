@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/login-register.css">
+    <title>Hunt - M&W Login</title>
+    <link rel="shortcut icon" href="../images/page-icon.ico" type="image/x-icon">
+</head>
+<body>
+    <div class="back-ground">
+         <div class="container-pai">
+            <div class="card-login"></div>
+             <div class="container">
+                <div class="home-button">
+                    <a href="./home-page.html"><p>⭠ HOME</p></a>
+                </div>
+                 <div class="login-campo">
+
+                    <div class="title">
+                        <h1>User Login</h1>
+                        <div class="line"></div>
+                    </div>
+                     <div class="campo">
+                         <input type="text" placeholder="Usuario ou Email" class="icon-user" id="email_usuario_input">
+                     </div>
+                     <div class="campo">
+                        <input type="password" placeholder="Senha" class="icon-pssw" id="senha_input">
+                        <eye id="eye"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd()"></eye>
+                     </div>
+                        <div class="passw-rec">
+                            <div> 
+                                <label for="checkbox" class="checkbox"><input type="checkbox" onclick="lembrarDeMim()"></label>Lembre de mim
+                            </div>
+                            <a href=""><p>Esqueceu sua senha?</p></a>
+                        </div>
+
+                     <div class="button-campo">
+                        <button type="button" onclick="entrar()">LOGIN</button>
+                        <a href="./register-page.html"><p>Não Possui conta? Registre-se</p></a>
+                     </div>
+                     
+                 </div>
+             </div>
+         </div>
+     </div>
+ </body>
+</html>
+<script>
+
+    function lembrarDeMim(){
+        localStorage.lembrarDeMim = 'Sim'
+        localStorage.emailLemb = email_usuario_input.value
+        localStorage.senhaLemb = senha_input.value
+    }
+    
+    function show_passwd(){
+        const input = document.getElementById('senha_input');
+        const icone = document.querySelector('.icon-eye');
+
+        if (input.type === 'password') {
+        input.type = 'text';
+        eye.innerHTML = '<img src="./images/open eye.png" alt="" class="icon-eye" onclick="show_passwd()" id="eye-psswd">';
+        } else {
+        input.type = 'password';
+        eye.innerHTML = '<img src="./images/close eye.png" alt="" class="icon-eye" onclick="show_passwd()" id="eye-psswd">';
+        }
+    }
+
+    function entrar() {
+        // aguardar();
+
+        var emailVar = email_usuario_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == "" || senhaVar == "") {
+            // cardErro.style.display = "block"
+            // mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
+            // finalizarAguardar();
+            return false;
+        }
+        else {
+            // setInterval(sumirMensagem, 5000)
+        }
+
+        console.log("FORM LOGIN: ", emailVar);
+        console.log("FORM SENHA: ", senhaVar);
+
+        fetch("/usuarios/autenticar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                emailServer: emailVar,
+                senhaServer: senhaVar
+            })
+        })
+
+        .then(function (resposta) {
+            console.log("ESTOU NO THEN DO entrar()!")
+
+            if (resposta.ok) {
+                console.log(resposta);
+
+                resposta.json().then(json => {
+
+                    console.log(json);
+                    jsonObjet = json[0]
+                    console.log(JSON.stringify(json));
+                    sessionStorage.EMAIL_USUARIO = json.email;
+                    sessionStorage.NOME_USUARIO = json.usuario;
+                    sessionStorage.ID_USUARIO = json.id;
+        
+                    window.location.href = "login-confirm-page.html"
+                });
+
+            } else {
+
+                console.log("Houve um erro ao tentar realizar o login!");
+
+                resposta.text().then(texto => {
+                    console.error(texto);
+                    // finalizarAguardar(texto);
+                });
+            }
+
+        }).catch(function (erro) {
+            console.log(erro);
+        })
+
+        return false;
+    }
+
+    function sumirMensagem() {
+        cardErro.style.display = "none"
+    }
+
+</script>

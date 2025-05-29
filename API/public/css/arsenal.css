@@ -1,0 +1,427 @@
+body{
+    margin: 0px;
+    background-image: url('../images/FanKit/Backgrounds/Background-8.jpg');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+@font-face {
+    font-family: 'Unfair';
+    src: url('../css/Unfair-Style2Rough.otf') format('opentype');
+}
+.main_font{
+    font-family: 'Unfair';
+}
+
+/* NAV BAR | NAV BAR | NAV BAR | NAV BAR | NAV BAR | NAV BAR | NAV BAR | NAV BAR | NAV BAR | NAV BAR | */
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 1200px;
+    width: 100%;
+    height: 70px;
+    background-color:rgba(0, 0, 0, 0.664); 
+    position: fixed;
+}
+
+.header .container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 100%;
+}
+.logo{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    height: fit-content;
+    width: 100px;
+    color: white;
+}
+.logo-header{
+    margin-top: 10px;
+    background-image: url('../images/logo.png');
+    background-size: cover;
+    width: 420px;
+    height: 55px;
+
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+
+}
+.navbar a{
+    font-size: 40px;
+    color: white;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+}
+a s{
+    font-size: 15px;
+    padding-right: 5px;
+    padding-bottom: 3px;
+}
+.navbar a:hover{
+    color:  rgb(209, 20, 20);
+    font-size: 43px;
+    transition: all 0.3s ease-in-out;
+}
+nav{
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+.login_button{
+    padding: 5px;
+    width: 110px;
+
+    margin-left: 60px;
+    margin-right: 0;
+
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+
+
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    z-index: 2;
+}
+.login_button:hover{
+    background-color: rgb(209, 0, 0);
+    transition: all ease-in-out 0.3s;
+}
+/* NAV BAR END | NAV BAR END | NAV BAR END | NAV BAR END |  */
+
+
+
+.line{
+    width: 320px;
+    height: 1px;
+    background: -webkit-gradient(linear,left top, right top,from(transparent),color-stop(50%, #dae2e4),to(transparent));
+    background: linear-gradient(to right,transparent 0%,#fff 50%,transparent 100%);
+}
+.title{
+    font-size: 70px;
+    width: 100%;
+    font-family: 'Unfair';
+    color: rgb(3, 3, 3);
+    text-align: center;
+    background-image: url('../images/bg-white.png');
+    background-size: contain;
+}
+.container_pai{
+    margin-top: 70px;
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 1150px;
+
+    background-color: rgba(0, 0, 0, 0.398);
+    
+}.container_desc{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    color: white;
+    padding-left: 30px;
+    font-size: 23px;
+}
+.sobre{
+    width: 1000px;
+    color: white;
+    font-size: 23px;
+    text-align: left;
+    padding-right: 50px;
+}
+.sobre p{
+    margin: 0;
+}
+ul{
+    width:660px;
+    height: fit-content;
+}
+ul strong{
+    font-family: 'Unfair';
+    font-size: 30px;
+    
+}
+.container_search{
+    width: 100%;
+}
+.search_box{
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 30px;
+    width: 100%;
+    gap: 5px;
+}
+.search_box span{
+    font-size: 40px;
+    font-family: 'Unfair';
+}
+.search_box input{
+    border: none;
+    border-radius: 7px;
+
+    height: 40px;
+
+    font-size: 18px;
+    font-family:helvetica;
+    color: white;
+    padding-left: 5px;
+    outline: none;
+    background-color: rgba(240, 248, 255, 0);
+    width: 270px;
+}
+.campo{
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: fit-content;
+    padding-right: 10px;
+    border: solid 1px rgb(255, 255, 255);
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.301);
+}
+.container_tabela{
+    margin-top: 15px;
+    padding-bottom: 150px;
+}
+.tabelaArsenal{
+    border: 2px solid rgb(255, 255, 255);
+    width: 1100px;
+}
+.tabelaArsenal td{
+    border: 4px solid rgba(239, 226, 226, 0.825);
+    color: rgb(255, 255, 255);
+    padding: 10px 0px 10px 0px;
+    font-size: 25px;
+    text-align: center;
+}
+.tabelaArsenal th{
+    border: 1px solid white;
+    font-family: 'Unfair';
+    font-size: 50px;
+    color: white;
+    padding: 10px;
+    height: 50px;
+}
+.arma_bg{
+    width: 100%;
+    height: 90px;
+    background-image: url('../images/bg-white.png');
+    background-size: contain;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.arma_nome{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding-left: 10px;
+    font-family:Verdana;
+    font-weight: bolder;
+    font-size: 25px;
+}
+.arma_preço{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100%;
+    padding: 5px 10px 0px 0px;
+    justify-content: space-evenly;
+
+    font-size: 30px;
+    font-weight: bolder;
+}
+.arma_dano{
+    display: flex;
+    justify-content: center;
+    font-weight: bolder;
+    font-size: 30px;
+    font-family: helvetica;
+    padding: 10px;
+}
+.arma_tipo{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    font-family: helvetica;
+    font-weight: bolder;
+    font-size: 30px;
+}
+.container_arma_desc{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.corpo_container{
+    font-family: 'Unfair';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: 2px solid white;
+    background-color: rgba(0, 0, 0, 0.253);
+
+    box-shadow: 0px -1px 43px 9px rgba(255,255,255,0.18);
+    -webkit-box-shadow: 0px -1px 43px 9px rgba(255,255,255,0.18);
+    -moz-box-shadow: 0px -1px 43px 9px rgba(255,255,255,0.18);
+}
+.corpo_container h2{
+    margin: 8px;
+}
+.corpo_title{
+    background-color: rgba(255, 255, 255, 0.909);
+    color: black;
+    width: 100%;
+    text-align: center;
+}
+.corpo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 400px;
+    width: 300px;
+    margin-right: 120px;
+    background-size: contain;
+    background-image: url('https://www.washingtonpost.com/resizer/6c6AJYNISuOuib_C6r6A2qZdsXc=/arc-anglerfish-washpost-prod-washpost/VRMS3O7XPJHYTF3Q6PDJG2LGQI.png');
+}
+.corpo p{
+    font-family: helvetica;
+}
+.corpo .head{
+    color: red;
+    margin-left: 150px;
+
+}
+.corpo .tronco{
+    color: red;
+    margin-left: 160px;
+    margin-top: 0;
+
+}
+.corpo .braço{
+    color: red;
+    margin-left: 210px;
+    margin-bottom: 80px;
+}
+
+.corpo .perna{
+    color: red;
+    margin-left: 170px;
+    margin-bottom: 60px;
+}
+.container_carrocel{
+    border: 3px solid white;
+    border-radius: 6px;
+}
+.carousel-buttons{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.carousel-buttons button{
+    width: 50%;
+    padding: 5px;
+
+    font-family: 'Unfair';
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+
+
+    background-color: red;
+    color: white;
+}
+.carousel-buttons button:hover{
+    background-color: rgb(209, 0, 0);
+    transition: all ease-in-out 0.3s;
+}
+.ammo_title{
+    font-size: 17px;
+    color: black;
+    padding: 0;
+    margin: 0;
+}
+.ammo_title_box{
+    background-image: url('../images/bg-white.png');
+    background-size: contain;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.tipo_munições_table{
+    border: 5px solid white;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 503px;
+}
+.tipo_munições_table th{
+    font-family: 'Unfair';
+    font-size: 27px;
+    width: 500px;
+}
+.tipo_munições_table td{
+    text-align: center;
+    font-family: helvetica;
+}
+.descricao_arma{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    margin: auto;
+}
+.descricao_arma p{
+    margin: 0;
+}
+.favoritar_arma{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'unfair';
+    font-size: 25px;
+}
+.favoritar_arma button{
+    width: 50%;
+    padding: 5px;
+    border: 0;
+    border-radius: 4px;
+    margin: 4px;
+
+    font-family: 'Unfair';
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+
+
+    background-color: rgb(239, 255, 60);
+    color: rgb(28, 28, 28);
+    transition: all ease-in-out 0.3s;
+}
+.favoritar_arma button:hover{
+    background-color: rgba(239, 255, 60, 0.744);
+    color: rgb(255, 255, 255);
+}
