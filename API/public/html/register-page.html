@@ -116,9 +116,7 @@ function verify(){
 
 //    VERIFICAÇÃO SE SENHA!
     if(senha1 != senha2){
-
         psswd_error.innerHTML = "As senhas não conferem"
-        
         campo_senha1.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
         campo_senha2.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
 
@@ -154,6 +152,8 @@ function verify(){
 
         psswd_error.style.opacity = '100';
         psswd_error.style.marginTop = '20px'
+    }else{
+        var senhaStatus = "ok"
     }
 // FIM SENHA VERIFY
 
@@ -176,6 +176,7 @@ function verify(){
                 email_error.style.opacity = '100';
             }else{
                 email_error.style.opacity = '0'
+                var emailStatus = "ok"
             }
     }
 // FIM EMAIL VERIFY
@@ -193,6 +194,10 @@ function verify(){
     }
     else{
         user_error.style.opacity = '0';
+        var usuarioStatus = "ok"
+    }
+    if(senhaStatus == 'ok' && emailStatus == 'ok' && usuarioStatus == 'ok'){
+        verificarEmail()
     }
 }
 // ESSAS FORAM SIMPLES... AMÉM.... MAS AINDA FALTA VERIFICAR COM A API SE O EMAIL JÁ ESTA SENDO UTILIZADO KKKK
@@ -272,8 +277,8 @@ function cadastrar() {
     // Agora vá para o método fetch logo abaixo
     var nomeVar = user_input.value;
     var emailVar = email_input.value;
-    var senhaVar = senha1_input.value;
-    var confirmacaoSenhaVar = senha2_input.value;
+    var senhaVar = senha_input1.value;
+    var confirmacaoSenhaVar = senha_input2.value;
 
     // Verificando se há algum campo em branco
     

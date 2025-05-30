@@ -63,7 +63,7 @@ function armasFavoritadas(req,res){
     })
     .catch((erro) =>{
         console.error('Erro , nenhuma arma encontrada', erro)
-        req.status(500).json({ erro: "Erro Ao Buscar por Armas favoritadas"})
+        res.status(500).json({ erro: "Erro Ao Buscar por Armas favoritadas"})
     })
 } 
 
