@@ -17,6 +17,12 @@ router.get("/listarUsuarios", function (req,res){
 router.get("/mediaPreco", function (req,res){
     dashboardController.mediaPreco(req,res);
 })
+router.get("/tipoMaisFav", function (req,res){
+    dashboardController.tipoMaisFav(req,res);
+})
+router.get("/tipoMenosFav", function (req,res){
+    dashboardController.tipoMenosFav(req,res);
+})
 
 
 

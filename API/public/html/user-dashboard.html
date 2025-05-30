@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/user-page.css">
+    <link rel="stylesheet" href="../css/user.css">
     <title>Hunt - Dashboard</title>
 </head>
 <body>
@@ -14,8 +14,11 @@
                 <div class="line"></div>
             </div>
             <div class="user_nav">
-              <a href="./user-page.html">
-                <div class="nav_button main_font">DASHBOARD</div>
+              <a href="./user-perfil.html">
+                <div class="nav_button main_font">SEU PERFIL</div>
+              </a>
+              <a href="./user-dashboard.html">
+                <div class="nav_button main_font"><span style="color: red;">DASHBOARD</span></div>
               </a>
               <a href="../index.html">
                 <div class="nav_button main_font">HOME</div>
@@ -23,10 +26,8 @@
               <a href="./arsenal.html">
                 <div class="nav_button main_font">ARSENAL</div>
               </a>
-              <a href="./user-favoritos.html">
-                <div class="nav_button main_font">FAVORITOS</div>
-              </a>
             </div>
+            <img src="../images/logo.png" height="150px">
         </div>
 
         <div class="content_container">
@@ -47,11 +48,11 @@
                       </div>
                       <div class="box_kpi">
                         <h4>Tipo de arma mais favoritada</h4>
-                        <h1 class="tipoMais">Rifle</h1>
+                        <h1 class="tipoMais" id="TipoMaisFav">Rifle</h1>
                       </div>
                       <div class="box_kpi">
                         <h4>Tipo de arma menos favoritada</h4>
-                        <h1 class="tipoMenos">Pistola</h1>
+                        <h1 class="tipoMenos" id="TipoMenosFav">Pistola</h1>
                       </div>
                     </div>
                      <div class="container_dash_um">
@@ -85,6 +86,8 @@
 <script>
 user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
 
+fetch
+
 fetch("/dashboard/listarUsuarios")
     .then(res => {
         if(!res.ok) {
@@ -110,6 +113,34 @@ fetch("/dashboard/mediaPreco")
       var mediaPreco = document.getElementById('media_preco')
       mediaPreco.innerHTML = `${media[0].MediaGeralArmasFavoritadas }<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="45px" height="45px">`
     })
+
+fetch("/dashboard/tipoMaisFav")
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na reposta da arma maisFav: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(tipo => {
+      console.log('Tipo da arma mais :', tipo);
+      var tipoMaisFav = document.getElementById('TipoMaisFav')
+      tipoMaisFav.innerHTML = tipo[0].tipo 
+    })
+
+fetch("/dashboard/tipoMenosFav")
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na reposta da arma menosFav: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(tipo => {
+      console.log('Tipo de arma menos favoritada:', tipo);
+      var tipoMenosFav = document.getElementById('TipoMenosFav')
+      tipoMenosFav.innerHTML = tipo[0].tipo
+    })
+  
+     
 
 fetch("/dashboard/listar")
     .then(res => {

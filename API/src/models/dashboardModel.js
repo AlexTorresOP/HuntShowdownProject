@@ -22,6 +22,26 @@ function mediaPreco(){
     `
     return database.executar(instrucao)
 }
+function tipoMaisFav(){
+    var instrucao = `
+    SELECT a.tipo, COUNT(*) AS vezesFavoritados
+    FROM armas AS a
+    JOIN armasFavoritos AS af ON a.idArma = af.idArma
+    GROUP BY a.tipo
+    ORDER BY vezesFavoritados DESC LIMIT 1;
+    `
+    return database.executar(instrucao)
+}
+function tipoMenosFav(){
+    var instrucao = `
+    SELECT a.tipo, COUNT(*) AS vezesFavoritados
+    FROM armas AS a
+    JOIN armasFavoritos AS af ON a.idArma = af.idArma
+    GROUP BY a.tipo
+    ORDER BY vezesFavoritados ASC LIMIT 1;
+    `
+    return database.executar(instrucao)
+}
 
 function favoritas() {
     var instrucao = `
@@ -46,5 +66,7 @@ module.exports = {
     municao,
     listar,
     listarUsuarios,
-    mediaPreco
+    mediaPreco,
+    tipoMaisFav,
+    tipoMenosFav
 };

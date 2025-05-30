@@ -13,12 +13,6 @@ function pesquisar(pesquisa,orderPreço){
     var instrucao = `SELECT * FROM armas WHERE nome LIKE '%${pesquisa}%' ORDER BY preço ${orderPreço}`
     console.log('Executando Instrução' + instrucao)
     return database.executar(instrucao)
-    // if(orderPreço){
-
-    // }
-    // else{
-    //     return database.executar(instrucao)
-    // }
 }
 function favoritar(idArma,idUsuario){
     console.log('FAVORITANDO ARMA')
@@ -26,8 +20,22 @@ function favoritar(idArma,idUsuario){
     console.log('Inserindo no banco de dados: ' + instrucao)
     return database.executar(instrucao)
 }
+function desfavoritar(idArma,idUsuario){
+    console.log('FAVORITANDO ARMA')
+    var instrucao = `DELETE FROM armasFavoritos WHERE idArma = ${idArma} AND idUsuario = ${idUsuario};`
+    console.log('Inserindo no banco de dados: ' + instrucao)
+    return database.executar(instrucao)
+}
+function armasFavoritadas(idUsuario){
+    console.log('Checando Armas Já Favoritadas')
+    var instrucao = `SELECT idArma,idUsuario FROM armasFavoritos WHERE idUsuario = ${idUsuario};`
+    console.log('Fazendo consulta de armas favoritadas' + instrucao)
+    return database.executar(instrucao)
+}
 module.exports = {
     listar,
     pesquisar,
-    favoritar
+    favoritar,
+    desfavoritar,
+    armasFavoritadas
 };

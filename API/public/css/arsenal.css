@@ -81,7 +81,7 @@ nav{
 }
 .login_button{
     padding: 5px;
-    width: 110px;
+    width: 140px;
 
     margin-left: 60px;
     margin-right: 0;
@@ -404,7 +404,7 @@ ul strong{
     font-family: 'unfair';
     font-size: 25px;
 }
-.favoritar_arma button{
+.button_fav{
     width: 50%;
     padding: 5px;
     border: 0;
@@ -421,7 +421,28 @@ ul strong{
     color: rgb(28, 28, 28);
     transition: all ease-in-out 0.3s;
 }
-.favoritar_arma button:hover{
+.button_fav:hover{
     background-color: rgba(239, 255, 60, 0.744);
+    color: rgb(255, 255, 255);
+}
+.button_desfav{
+    width: 50%;
+    padding: 5px;
+    border: 0;
+    border-radius: 4px;
+    margin: 4px;
+
+    font-family: 'Unfair';
+    font-size: 35px;
+    font-weight: bolder;
+    text-align: center;
+
+
+    background-color: rgb(207, 0, 0);
+    color: rgb(214, 214, 214);
+    transition: all ease-in-out 0.3s;
+}
+.button_desfav:hover{
+    background-color: rgb(239, 159, 0);
     color: rgb(255, 255, 255);
 }

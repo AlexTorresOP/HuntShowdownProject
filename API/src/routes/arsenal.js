@@ -13,5 +13,12 @@ router.post("/pesquisar", function(req,res){
 router.post("/favoritar", function(req,res){
     arsenalController.favoritar(req,res)
 });
+router.post("/desfavoritar", function(req,res){
+    arsenalController.desfavoritar(req,res)
+});
+router.post("/armasFavoritadas", function(req,res){
+    arsenalController.armasFavoritadas(req,res)
+});
+
 
 module.exports = router;

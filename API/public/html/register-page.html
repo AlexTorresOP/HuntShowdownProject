@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" userscale="none">
     <link rel="stylesheet" href="../css/login-register.css">
     <title>Hunt - M&W Register</title>
     <link rel="shortcut icon" href="../images/page-icon.ico" type="image/x-icon">
@@ -10,10 +10,27 @@
 <body>
     <div class="back-ground">
          <div class="container-pai">
-            <div class="card-regis"></div>
+            <div class="card-regis">
+
+                <div class="error-box main-font">
+                    <div class="error-text" id="email_error">
+                        Email - Error Message
+                    </div>
+
+                    <div class="error-text" id="user_error">
+                        Usuario - Error Message
+                    </div>
+
+                    <div class="error-text" id="psswd_error">
+                        psswd - Error Message
+                    </div>
+
+                </div>
+
+            </div>
              <div class="container">
                 <div class="home-button-register">
-                    <a href="../index.html"><p>⭠ HOME</p></a>
+                    <a href="./index.html"><p>⭠ HOME</p></a>
                 </div>
                  <div class="login-campo">
 
@@ -21,23 +38,23 @@
                         <h1>Sign In</h1>
                         <div class="line"></div>
                     </div>
-                     <div class="campo">
-                         <input type="text" placeholder="Email" class="icon-email" id="email_input">
+                     <div class="campo" id="campo-email">
+                         <input type="text" placeholder="Email" class="icon-email" id="email_input" onclick="limpar_campo_email()">
                      </div>
-                     <div class="campo">
-                        <input type="text" placeholder="Nome de Usuario" class="icon-user" id="nome_input">
+                     <div class="campo" id="campo-usuario">
+                        <input type="text" placeholder="Nome de Usuario" class="icon-user" id="user_input" onclick="limpar_campo_usuario()">
                     </div>
-                     <div class="campo">
-                        <input type="password" placeholder="Senha" class="icon-pssw" id="senha_input">
+                     <div class="campo" id="campo-senha1">
+                        <input type="password" placeholder="Senha" class="icon-pssw" id="senha_input1" onclick="limpar_campo_senha1()">
                         <eye id="eye"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd1()"></eye>
                      </div>
-                     <div class="campo">
-                        <input type="password" placeholder="Repita a senha" class="icon-pssw" id="confirmacao_senha_input">
-                        <eye id="eye2"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd"></eye>
+                     <div class="campo" id="campo-senha2">
+                        <input type="password" placeholder="Repita a senha" class="icon-pssw" id="senha_input2" onclick="limpar_campo_senha2()">
+                        <eye id="eye2"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd2()"></eye>
                      </div>
 
                      <div class="button-campo">
-                        <button onclick="verificarEmail()">REGISTRAR</button>
+                        <button onclick="verify()">REGISTRAR</button>
                         <a href="./login-page.html"><p>Já possui conta? Entre</p></a>
                      </div>
                      
@@ -46,84 +63,142 @@
          </div>
      </div>
  </body>
- <script>
+</html>
+
+<script>
     function show_passwd1(){
-        const input = document.getElementById('senha_input');
-        const icone = document.querySelector('.icon-eye');
+    const input = document.getElementById('senha_input1');
+    const icone = document.querySelector('.icon-eye');
 
-        if (input.type === 'password') {
-        input.type = 'text';
-        eye.innerHTML = '<img src="./images/open eye.png" alt="" class="icon-eye" onclick="show_passwd1()" id="eye-psswd">';
-        } else {
-        input.type = 'password';
-        eye.innerHTML = '<img src="./images/close eye.png" alt="" class="icon-eye" onclick="show_passwd1()" id="eye-psswd">';
-        }
+    if (input.type === 'password') {
+    input.type = 'text';
+    eye.innerHTML = '<img src="../images/open eye.png" alt="" class="icon-eye" onclick="show_passwd1()" id="eye-psswd">';
+    } else {
+    input.type = 'password';
+    eye.innerHTML = '<img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd1()" id="eye-psswd">';
     }
-    function show_passwd2(){
-        const input = document.getElementById('confirmacao_senha_input');
-        const icone = document.querySelector('.icon-eye');
+}
+function show_passwd2(){
+    const input = document.getElementById('senha_input2');
+    const icone = document.querySelector('.icon-eye');
 
-        if (input.type === 'password') {
-        input.type = 'text'
-        eye2.innerHTML = '<img src="./images/open eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd">';
-        } else {
-        input.type = 'password'
-        eye2.innerHTML = '<img src="./images/close eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd">';
-        }
+    if (input.type === 'password') {
+    input.type = 'text'
+    eye2.innerHTML = '<img src="../images/open eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd">';
+    } else {
+    input.type = 'password'
+    eye2.innerHTML = '<img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd2()" id="eye-psswd">';
     }
-    function cadastrar() {
-    // aguardar();
+}  
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
-    var nomeVar = nome_input.value;
-    var emailVar = email_input.value;
-    var senhaVar = senha_input.value;
-    var confirmacaoSenhaVar = confirmacao_senha_input.value;
+// LISTA DE FORMATOS DE EMAIL
+var emails = ['@gmail', '@hotmail', '@outlook'];
+var formatoEmail = false;
+// LISTA DE CARACTERES ESPECIAIS
+var caracteres = ['@', '#', '!', '$', '&', '*'];
+var temCaractereEspecial = false;
 
-    // Verificando se há algum campo em branco
+function verify(){
+    var email = email_input.value
+    var usuario = user_input.value
+    var senha1 = senha_input1.value
+    var senha2 = senha_input2.value
+
+    var campo_email = document.getElementById('campo-email')
+    var campo_usuario = document.getElementById('campo-usuario')
+
+    var campo_senha1 = document.getElementById('campo-senha1')
+    var campo_senha2 = document.getElementById('campo-senha2')
+
+    var senha_error1 = document.getElementById('psswd_error')
+    var email_error = document.getElementById('email_error');
+
+
+//    VERIFICAÇÃO SE SENHA!
+    if(senha1 != senha2){
+
+        psswd_error.innerHTML = "As senhas não conferem"
+        
+        campo_senha1.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+        campo_senha2.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+
+        psswd_error.style.marginTop = '35px'
+
+        senha_error1.style.opacity = '100';
+
+    }
+    else if (senha1 == senha2){
+        campo_senha1.style.border = ""
+        campo_senha2.style.border = ""
+        psswd_error.style.opacity = '0'
+
+    for (var i = 0; i < caracteres.length; i++) {
+        if (senha2.includes(caracteres[i])) {
+            temCaractereEspecial = true;
+            break;
+            }
+        }
     
-    if (emailVar == "" || 
-        nomeVar == "" || 
-        senhaVar == "" || 
-        confirmacaoSenhaVar == ""
-    )  {
-        return false;
-    }
-    // Enviando o valor da nova input
-    fetch("/usuarios/registrar", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
-        nomeServer: nomeVar,
-        emailServer: emailVar,
-        senhaServer: senhaVar,
-        }),
-    })
-        .then(function (resposta){
-        console.log("resposta: ", resposta);
-
-        if (resposta.ok) {
-            window.location = "register-confirm-page.html"
-            // limparFormulario();
-            // finalizarAguardar();
-        } else {
-            throw "Houve um erro ao tentar realizar o cadastro!";
+        if (senha2.length < 8 || !temCaractereEspecial){
+        psswd_error.style.opacity = '100'
+        campo_senha1.style.border = 'solid 2px rgba(255, 0, 0, 0.911)';
+        campo_senha2.style.border = 'solid 2px rgba(255, 0, 0, 0.911)';
+        psswd_error.innerHTML = "Senha Muito Fraca! <br> Deve ter ao menos 8 caracteres e 1 caractere especial (@,#,!,$,&,*)";
         }
-        })
-        .catch(function (resposta) {
-        console.log(`#ERRO: ${resposta}`);
-        // finalizarAguardar();
-        });
-
-    return false;
     }
+    if(senha1 == "" || senha2 == ""){
+        psswd_error.innerHTML = "PREENCHA TODOS OS <br> CAMPOS DE SENHA"
+        
+        campo_senha1.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+        campo_senha2.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
 
-    function verificarEmail() {
+        psswd_error.style.opacity = '100';
+        psswd_error.style.marginTop = '20px'
+    }
+// FIM SENHA VERIFY
+
+// VERIFICAÇÕES DE EMAIL ! --------------------------------------------------------------------
+    if(email == ""){
+        campo_email.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+        email_error.innerHTML = "insira um endereço de e-mail"
+        email_error.style.opacity = '100';
+    }
+    else if(email != undefined){
+        for (var i = 0; i < emails.length; i++) {
+            if (email.includes(emails[i])) {
+                formatoEmail = true;
+                break;
+                }
+            }
+            if (!formatoEmail){
+                campo_email.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+                email_error.innerHTML = "insira um endereço de e-mail valido!"
+                email_error.style.opacity = '100';
+            }else{
+                email_error.style.opacity = '0'
+            }
+    }
+// FIM EMAIL VERIFY
+
+// VERIFICAÇÕES DE USUARIO ! --------------------------------------------------------------------
+    if (usuario == ""){
+        campo_usuario.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+        user_error.innerHTML = "insira um nome de usuario"
+        user_error.style.opacity = '100';
+    }
+    else if( usuario.length < 6){
+        campo_usuario.style.border = 'solid 2px rgba(255, 0, 0, 0.911)'
+        user_error.innerHTML = "nome de usuario muito curto"
+        user_error.style.opacity = '100';
+    }
+    else{
+        user_error.style.opacity = '0';
+    }
+}
+// ESSAS FORAM SIMPLES... AMÉM.... MAS AINDA FALTA VERIFICAR COM A API SE O EMAIL JÁ ESTA SENDO UTILIZADO KKKK
+
+
+function verificarEmail() {
     // aguardar();
 
     var emailusuarioVar = email_input.value;
@@ -187,5 +262,81 @@
     return false;
 }
 
- </script>
-</html>
+// FOI .... FAICL ATÉ... HEHEHE 
+// AGORA PUXAR O CADASTRO COM A API E ESSA PAGINA ESTA 100%!!! -------------------
+
+function cadastrar() {
+    // aguardar();
+
+    //Recupere o valor da nova input pelo nome do id
+    // Agora vá para o método fetch logo abaixo
+    var nomeVar = user_input.value;
+    var emailVar = email_input.value;
+    var senhaVar = senha1_input.value;
+    var confirmacaoSenhaVar = senha2_input.value;
+
+    // Verificando se há algum campo em branco
+    
+    if (emailVar == "" || 
+        nomeVar == "" || 
+        senhaVar == "" || 
+        confirmacaoSenhaVar == ""
+    )  {
+        return false;
+    }
+    // Enviando o valor da nova input
+    fetch("/usuarios/registrar", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+        // crie um atributo que recebe o valor recuperado aqui
+        // Agora vá para o arquivo routes/usuario.js
+        nomeServer: nomeVar,
+        emailServer: emailVar,
+        senhaServer: senhaVar,
+        }),
+    })
+        .then(function (resposta){
+        console.log("resposta: ", resposta);
+
+        if (resposta.ok) {
+            window.location = "register-confirm-page.html"
+            // limparFormulario();
+            // finalizarAguardar();
+        } else {
+            throw "Houve um erro ao tentar realizar o cadastro!";
+        }
+        })
+        .catch(function (resposta) {
+        console.log(`#ERRO: ${resposta}`);
+        // finalizarAguardar();
+        });
+
+    return false;
+    }
+
+
+
+function limpar_campo_email(){
+    var campo_email = document.getElementById('campo-email')
+    campo_email.style.border = ""
+}
+
+    function limpar_campo_usuario(){
+    var campo_usuario = document.getElementById('campo-usuario')
+    campo_usuario.style.border = ""
+}
+
+    function limpar_campo_senha1(){
+    var campo_senha1 = document.getElementById('campo-senha1')
+    campo_senha1.style.border = ""
+}
+
+    function limpar_campo_senha2(){
+    var campo_senha2 = document.getElementById('campo-senha2')
+    campo_senha2.style.border = ""
+}
+
+</script>

@@ -14,8 +14,8 @@
                 <div class="confirm-campo">
 
                    <div>
-                       <span class="title_register">Você se registrou com sucesso!</span><br>
-                       <span id="usuario_nome_campo"></span>
+                       <span class="title main-font">Você se registrou com sucesso!</span><br>
+                       <span id="usuario_nome_campo" class="main-font"></span>
                        <div class="line"></div>
                    </div>
 
@@ -55,3 +55,7 @@
      </div> -->
  </body>
 </html>
+<script>
+    var nomeUsuario = document.getElementById('usuario_nome_campo')
+    nomeUsuario.innerHTML = sessionStorage.ID_USUARIO
+</script>

@@ -40,7 +40,6 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    
 
     background-color: rgba(0, 0, 0, 0.76);
     height: 500px;
@@ -55,6 +54,7 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-align: center;
 
     height: 100%;
 
@@ -65,52 +65,22 @@ body{
 
     margin-bottom: 0px;
 }
-.confirm-tittle
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    color: rgb(255, 255, 255);
-    text-align: center;
-    font-family: 'Unfair';
-    font-size: 72px;
-    height: fit-content;
-    margin: 0;
-    gap: 0;
-
-    height: fit-content;
-
-}
 .title{
-    height: 56.4px;
+    color: white;
+    font-size: 60px
 }
-.title_register{
-    height: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
+#usuario_nome_campo{
+    font-size: 70px;
+    color: red;
+    margin-bottom: 20px;
+}
+.confirm-tittle p
+{
     color: rgb(255, 255, 255);
     text-align: center;
     font-family: 'Unfair';
-    font-size: 62px;
-    height: fit-content;
+    font-size: 50px;
     margin: 0;
-    gap: 0;
-
-    height: fit-content;
-}
-.nome_usuario{
-    color: rgba(255, 0, 0, 0.911) ;
-    font-size: 60px;
-    margin: 0;
-}
-.nome_usuario_campo{
-    height: fit-content;
-    width: fit-content;
 }
 .line{
     width: 320px;
@@ -121,8 +91,8 @@ body{
 .confirm-img{
     background-image: url(../images/checked.png);
     background-size: cover;
-    background-position: center;
-    height: 240px;
+    height: 20px;
+    width: 20px;
     padding: 130px;
 }
 .confirm-campo .button{
@@ -143,7 +113,6 @@ body{
     background-color: rgba(187, 3, 3, 0.911);
     transition: all 0.3s;
 }
-
 .button-campo{
     display: flex;
     flex-direction: column;
@@ -151,12 +120,6 @@ body{
     align-items: center;
     width: 360px;
    
-}
-.redirect-campo{
-    font-size: 45px;
-    color: white;
-    font-family: 'Unfair';
-    text-align: center;
 }
 .button-campo a{
     text-decoration: none;
@@ -169,4 +132,9 @@ body{
     margin: 15px;
     font-family: 'Unfair';
     text-align: center;
+}
+.redirect-campo{
+    color: white;
+    font-size: 40px;
+    margin: 0;
 }

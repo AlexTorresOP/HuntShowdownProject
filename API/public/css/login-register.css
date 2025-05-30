@@ -2,6 +2,8 @@ body{
     margin: 0;
     background-image: url(../images/FanKit/Backgrounds/Background-2.jpg);
     background-size: cover;
+    overflow: hidden;
+    height: 100%;
 }
 @font-face {
     font-family: 'Unfair';
@@ -19,7 +21,7 @@ body{
 
 
     width: 100%;
-    height: 980px;
+    height: 930px;
     z-index: -1;
 
     margin: 0;
@@ -104,6 +106,39 @@ body{
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
 }
+.error-box{
+    pointer-events: none;
+    margin-top: 60px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+
+    gap: 40px;
+    z-index: 3;
+}
+.error-text{
+    font-weight: bolder;
+    font-size: 22px;
+    text-align: center;
+    border-radius: 6px;
+    color: white;
+    background: #ff0000;
+    background: linear-gradient(90deg,rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 1) 56%, rgba(209, 23, 23, 1) 100%);    
+    padding: 6px;
+    padding-right: 25px;
+    clip-path: polygon(88% 0, 100% 50%, 88% 100%, 0 100%, 0 0);
+}
+#email_error{
+    opacity: 0;
+}
+#user_error{
+    opacity: 0;
+}
+#psswd_error{
+    margin-top: 35px;
+    opacity: 0;
+}
 .card-regis{
     height: 100%;
     width: 800px;
@@ -113,6 +148,11 @@ body{
 
     border-top-left-radius: 7px;
     border-bottom-left-radius: 7px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
 }
 .login-campo{
     display: flex;
@@ -158,7 +198,18 @@ body{
     padding-left: 30px;
     outline: none;
 }
-
+.campo{
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    width: 330px;
+    border: solid 2px rgb(255, 255, 255);
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.301);
+}
+.campo:focus-within{
+    border-color: rgb(255, 255, 100);
+}
 .icon-email {
     background: url(../images/email-envelope-white-icon.png) no-repeat left;
     background-size: 21px;
@@ -180,21 +231,6 @@ body{
     height: 40px;
     width: 40px;
     
-}
-.campo{
-    text-align: left;
-    display: flex;
-    flex-direction: row;
-    width: 330px;
-    border: solid 1px rgb(255, 255, 255);
-    border-radius: 6px;
-    background-color: rgba(0, 0, 0, 0.301);
-}
-.campo:focus-within{
-    border-color: rgb(255, 255, 100);
-}
-.campo:has(input:not(:placeholder-shown)){
-    border-color: rgb(255, 255, 136);
 }
 .passw-rec {
     width: 340px;

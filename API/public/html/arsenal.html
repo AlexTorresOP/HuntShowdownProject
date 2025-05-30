@@ -40,10 +40,11 @@
                     <a href="">LORE</a>
                 </nav>
                 </div>
-
+                <div id="botãoLoginUserPage">
                 <a href="./login-page.html">
-                    <div class="login_button main_font">Login</div>
+                  <div class="login_button main_font">Login</div>
                 </a>
+                </div>
 
             </div>
 
@@ -97,6 +98,17 @@
 </body>
 </html>
 <script>
+
+if(sessionStorage.ID_USUARIO !=undefined){
+       var botaoLogin = document.getElementById('botãoLoginUserPage')
+       botaoLogin.innerHTML =""
+       botaoLogin.innerHTML = `
+                <a href="./user-perfil.html" style="text-decoration: none;">
+                    <div class="login_button main_font">SEU PERFIL</div>
+                </a>
+       `
+}
+
 
 var orederPreçoVar = 'ASC'
 
@@ -270,8 +282,9 @@ fetch("/arsenal/listar", {
                     <div class="descricao_arma" id="descricao_container">
                       <p>${arma.descricao}</p>
                       <div class="favoritar_arma" id="favoritar_campo_${arma.idArma}">
-                      Deseja Favoritar essa Arma?
-                      <button onclick="favoritar(${arma.idArma})">favoritar</button></div>
+                        Deseja Favoritar essa Arma?
+                        <button onclick="favoritar(${arma.idArma})" class="button_fav">favoritar</button>
+                        </div>
                       </div>
                     </div>
                       
@@ -394,11 +407,14 @@ function favoritar(idArma) {
       idUsuarioServer: idUsuarioVar
     })
   })
-  .then(response => {
-    if (response.ok) {
+  .then(resposta => {
+    if (resposta.ok) {
       console.log('Alterando Botão')
       var divFavoritar = document.getElementById(`favoritar_campo_${idArma}`);
-      divFavoritar.innerHTML = "VOCÊ FAVORITOU ESSA ARMA!"
+      divFavoritar.innerHTML = 
+      `
+      <button class="button_desfav" onclick="desfavoritar(${idArma})">DESFAVORITAR ARMA</button>
+      `
     } 
   })
   .catch(error => {
@@ -406,5 +422,56 @@ function favoritar(idArma) {
     alert('Erro ao favoritar a arma.');
   });
 }
+function desfavoritar(idArma){
+    idArmaVar = idArma;
+    idUsuarioVar = sessionStorage.ID_USUARIO;
+    fetch("/arsenal/desfavoritar", {
+      method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      idArmaServer : idArmaVar,
+      idUsuarioServer: idUsuarioVar
+    })
+  })
+  .then(resposta => {
+    if (resposta.ok) {
+      console.log('Alterando Botão')
+      var divFavoritar = document.getElementById(`favoritar_campo_${idArma}`);
+      divFavoritar.innerHTML = 
+      `
+      Deseja Favoritar essa Arma?
+      <button onclick="favoritar(${resposta.idArma})" class="button_fav">favoritar</button></div>
+      `
+    }
+  })
+}
+var idUsuarioVar = sessionStorage.ID_USUARIO
+fetch("/arsenal/armasFavoritadas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuarioServer : idUsuarioVar
+            })
+        })
+        .then(res =>{
+          if(!res.ok) {
+              throw new Error(`Erro Ao Verificar Armas Favoritadas do Usuario: ${res.status}`)
+          }
+          return res.json()
+        })
+        .then(armasFavoritadas =>{
+          console.log(armasFavoritadas.length)
+          for(var i = 0; i < armasFavoritadas.length;){
+          var divFavoritar = document.getElementById(`favoritar_campo_${armasFavoritadas[i].idArma}`);
+          divFavoritar.innerHTML = ""
+          divFavoritar.innerHTML = 
+          `
+          <button class="button_desfav" onclick="desfavoritar(${armasFavoritadas[i].idArma})">DESFAVORITAR ARMA</button>
+          `
+          i++
+          }
+        })
 
 </script>

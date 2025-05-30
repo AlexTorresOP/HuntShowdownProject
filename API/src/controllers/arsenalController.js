@@ -43,9 +43,34 @@ function favoritar(req,res){
         res.status(500).json({ erro: "Erro ao favoritar arma." });
     });
 }
+function desfavoritar(req,res){
+    var idArma = req.body.idArmaServer
+    var idUsuario = req.body.idUsuarioServer
+    arsenalModel.desfavoritar(idArma,idUsuario)
+    .then(() => {
+        res.status(200).json({ mensagem: "Arma desfavoritada com sucesso!" });
+    })
+    .catch((erro) => {
+        console.error("Erro ao desfavoritar arma:", erro);
+        res.status(500).json({ erro: "Erro ao desfavoritar arma." });
+    });
+}
+function armasFavoritadas(req,res){
+    var idUsuario = req.body.idUsuarioServer
+    arsenalModel.armasFavoritadas(idUsuario)
+    .then(resultado => {
+        res.status(200).json(resultado)
+    })
+    .catch((erro) =>{
+        console.error('Erro , nenhuma arma encontrada', erro)
+        req.status(500).json({ erro: "Erro Ao Buscar por Armas favoritadas"})
+    })
+} 
 
 module.exports = {
     listar,
     pesquisar,
-    favoritar
+    favoritar,
+    desfavoritar,
+    armasFavoritadas
 };

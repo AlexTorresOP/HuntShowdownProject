@@ -32,6 +32,26 @@ function mediaPreco(req,res){
         res.status(500).json({erro: "Erro interno no servidor"})
     })
 }
+function tipoMaisFav(req,res){
+    dashboardModel.tipoMaisFav()
+    .then(resultado => {
+        res.status(200).json(resultado)
+    })
+    .catch(erro => {
+        console.error("Erro ao puxar tipo arma mais Favoritada", erro);
+        res.status(500).json({erro: "Erro interno no servidor"})
+    })
+}
+function tipoMenosFav(req,res){
+    dashboardModel.tipoMenosFav()
+    .then(resultado => {
+        res.status(200).json(resultado)
+    })
+    .catch(erro => {
+        console.error("Erro ao puxar tipo arma menos Favoritada", erro);
+        res.status(500).json({erro: "Erro interno no servidor"})
+    })
+}
 
 
 function municao(req,res) {
@@ -63,5 +83,7 @@ module.exports = {
     municao,
     listar,
     listarUsuarios,
-    mediaPreco
+    mediaPreco,
+    tipoMaisFav,
+    tipoMenosFav
 };
