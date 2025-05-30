@@ -26,8 +26,11 @@
               <a href="./arsenal.html">
                 <div class="nav_button main_font">ARSENAL</div>
               </a>
+              <img src="../images/logo.png" height="130px">
+              <a onclick="logout()">
+                <div class="logout_button main_font">SAIR DA CONTA</div>
+              </a >
             </div>
-            <img src="../images/logo.png" height="150px">
         </div>
 
         <div class="content_container">
@@ -45,4 +48,10 @@
         </div>
     </div>
 </body>
+<script>
+  user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
+  function logout(){
+    sessionStorage = undefined;
+  }
+</script>
 </html>

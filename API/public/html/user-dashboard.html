@@ -26,8 +26,12 @@
               <a href="./arsenal.html">
                 <div class="nav_button main_font">ARSENAL</div>
               </a>
+              <img src="../images/logo.png" height="130px">
+              <a>
+                <div class="logout_button main_font" onclick="logout()">SAIR DA CONTA</div>
+              </a>
             </div>
-            <img src="../images/logo.png" height="150px">
+            
         </div>
 
         <div class="content_container">
@@ -85,8 +89,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
-
-fetch
+function logout(){
+  sessionStorage.EMAIL_USUARIO = undefined;
+  sessionStorage.NOME_USUARIO = 'Deslogado';
+  sessionStorage.ID_USUARIO = undefined;
+  window.location.href = "../index.html"
+  }
 
 fetch("/dashboard/listarUsuarios")
     .then(res => {
