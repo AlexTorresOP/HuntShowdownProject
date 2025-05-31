@@ -1,5 +1,13 @@
 const database = require("../database/config");
 
+
+function listarFavUsuario(idUsuario){
+    var instrucao =`
+    SELECT a.nome , a.imagem , a.idArma from armas as a join armasFavoritos as f on a.idArma = f.idArma where f.idUsuario = ${idUsuario};
+    `
+    return database.executar(instrucao)
+}
+
 function listar() {
     var instrucao =`
     SELECT a.nome, a.imagem, COUNT(*) as TotalDeVotos FROM armas as a 
@@ -68,5 +76,6 @@ module.exports = {
     listarUsuarios,
     mediaPreco,
     tipoMaisFav,
-    tipoMenosFav
+    tipoMenosFav,
+    listarFavUsuario
 };

@@ -90,9 +90,7 @@
 <script>
 user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
 function logout(){
-  sessionStorage.EMAIL_USUARIO = undefined;
-  sessionStorage.NOME_USUARIO = 'Deslogado';
-  sessionStorage.ID_USUARIO = undefined;
+  sessionStorage.clear() 
   window.location.href = "../index.html"
   }
 

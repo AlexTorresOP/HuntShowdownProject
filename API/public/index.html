@@ -53,13 +53,57 @@
 
     </div>
 
-    <div class="banner_footer"></div>
 
+    <div class="descricao_container">
+        <div class="desc_caixa_campo">
+            <div class="desc_caixa">
+                <div class="desc_img1"></div>
+                <div class="desc_text">
+                    <h2>ARSENAL E DASHBOARD</h2>
+                    <div class="line">-</div>
+                    <div class="text_bg">
+                    <p>Tenha acesso a lista detaladas de armas e uma dashboard exclusiva e saiba quais armas a comunidade esta mais usando!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="desc_caixa">
+                <div class="desc_img2"></div>
+                <div class="desc_text">
+                    <h2>ECONOMIZE SEUS HUNT-DOLLARS</h2>
+                    <div class="line">-</div>
+                    <div class="text_bg">
+                    <p>Saiba quais as armas que realmente valem a pena seus preciosos hundollares e quais são apenas um gasto!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="desc_caixa">
+                <div class="desc_img3"></div>
+                <div class="desc_text">
+                    <h2>ESTEJA NA VANTAGEM</h2>
+                    <div class="line">-</div>
+                    <div class="text_bg">
+                    <p>Saiba quais os melhores equipamentos para levas em suas caçadas!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="registreBox">
+  
+    </div>
+    <footer>
+        <p>
+        Desenvonvido por Alexsander Torres de Oliveira <br>
+        SPTECH School - 2025 <br>
+        <img src="./images/FanKit/Logo/Hunt_Logomark_White.png" height="40px">
+        </p>
+    </footer>
 </body>
 
 </html>
 <script>
-    if(sessionStorage.NOME_USUARIO == 'Deslogado'){
+    if(sessionStorage.length == 0){
         console.log('Usuario não logado/Usuario deslogou')
         var botaoLogin = document.getElementById('botãoLoginUserPage')
         botaoLogin.innerHTML =""

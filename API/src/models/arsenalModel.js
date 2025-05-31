@@ -10,7 +10,7 @@ function listar(orderPreço) {
 }
 function pesquisar(pesquisa,orderPreço){
     console.log('EXECUTANDO PESQUISA')
-    var instrucao = `SELECT * FROM armas WHERE nome LIKE '%${pesquisa}%' ORDER BY preço ${orderPreço}`
+    var instrucao = `SELECT * FROM armas as a JOIN detalhesArma as d ON a.idArma = d.idArma WHERE nome LIKE '%${pesquisa}%' ORDER BY preço ${orderPreço}`
     console.log('Executando Instrução' + instrucao)
     return database.executar(instrucao)
 }

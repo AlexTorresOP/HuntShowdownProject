@@ -107,9 +107,69 @@ function registrar(req, res) {
             );
     }
 }
+function alterarNome(req,res){
+    var idUsuario = req.body.idUsuarioServer;
+    var novoNome = req.body.novoNomeServer;
+    usuarioModel.alterarNome(idUsuario,novoNome)
+        .then(resultado=>{
+            res.status(200).json(novoNome)
+        })
+        .catch(erro => {
+            console.error("Erro ao alterar nome", erro);
+            res.status(500).json({erro: "Erro interno no servidor"})
+        })
+}
+function alterarEmail(req,res){
+    var idUsuario = req.body.idUsuarioServer;
+    var novoEmail = req.body.novoEmailServer;
+    usuarioModel.alterarEmail(idUsuario,novoEmail)
+        .then(resultado =>{
+            res.status(200).json(novoEmail)
+        })
+        .catch(erro => {
+            console.error("Erro ao alterar email", erro);
+            res.status(500).json({erro: "Erro interno no servidor"})
+        })
+}
+function alterarSenha(req,res){
+    var idUsuario = req.body.idUsuarioServer;
+    var novaSenha = req.body.senhaServer;
+    usuarioModel.alterarSenha(idUsuario,novaSenha)
+        .then(resultado =>{
+            res.status(200).json('SENHA ALTERADA')
+        })
+        .catch(erro => {
+            console.error("Erro ao alterar senha", erro);
+            res.status(500).json({erro: "Erro interno no servidor"})
+        })
+}
+function verificarSenha(req, res){
+    var senha = req.body.senhaServer;
+    var idUsuario = req.body.idUsuarioServer
+
+    usuarioModel.verificarSenha(senha,idUsuario)
+    .then( function (resultadoSenha){
+            console.log(`\nResultados encontrados: ${resultadoSenha.length}`);
+            console.log(`Resultados: ${JSON.stringify(resultadoSenha)}`); // transforma JSON em String
+
+            if (resultadoSenha.length > 0) {
+                res.status(200).json({ status: "ok" });
+            } else {
+                res.status(200).json({ status: "erro", mensagem: "SENHA INCORRETA" });
+            }
+        })
+        .catch((erro) => {
+            console.log(erro);
+            res.status(500).json(erro.sqlMessage);
+        });
+}
 
 module.exports = {
     autenticar,
     registrar,
-    verificarEmail
+    verificarEmail,
+    verificarSenha,
+    alterarNome,
+    alterarEmail,
+    alterarSenha
 }

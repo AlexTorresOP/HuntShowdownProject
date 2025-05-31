@@ -32,9 +32,48 @@ function registrar(nome, email, senha) {
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);
 }
+function verificarSenha(senha,idUsuario) {
+    console.log("Acessando o banco para verificar se senha esta correta:", senha);
+
+    var instrucaoSql = `
+        SELECT * FROM usuario WHERE senha = '${senha}' and idUsuario = ${idUsuario};
+    `;
+
+    console.log("Executando a instrução SQL:" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
+function alterarNome(idUsuario,novoNome){
+    console.log("Alterando Nome")
+    var instrucao =`
+    UPDATE usuario SET usuario = '${novoNome}' WHERE idUsuario = ${idUsuario}
+    `
+    console.log("Executando a instrução SQL:" + instrucao);
+    return database.executar(instrucao)
+}
+function alterarEmail(idUsuario,novoEmail){
+    console.log("Alterando Email")
+    var instrucao =`
+    UPDATE usuario SET email = '${novoEmail}' WHERE idUsuario = ${idUsuario}
+    `
+    console.log("Executando a instrução SQL:" + instrucao);
+    return database.executar(instrucao)
+}
+function alterarSenha(idUsuario,novaSenha){
+    console.log("Alterando Senha")
+    var instrucao=`
+    UPDATE usuario SET senha = '${novaSenha}' WHERE idUsuario = ${idUsuario}
+    `
+    console.log("Executando a instrução SQL:" + instrucao);
+    return database.executar(instrucao)
+}
 
 module.exports = {
     autenticar,
     registrar,
-    buscarPorEmail
+    buscarPorEmail,
+    verificarSenha,
+    alterarNome,
+    alterarEmail,
+    alterarSenha
 };

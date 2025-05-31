@@ -76,21 +76,22 @@
                     </div>
               </div>
       </div>
-      <div  class="container_tabela">
-          <table class="tabelaArsenal">
-              <thead id="tabelaLista">
-                <tr>
-                  <th>Imagem</th>
-                  <th>Nome</th>
-                  <th id="dano_seta">Dano</th>
-                  <th>Tipo</th>
-                  <th class="preço_style" id="preco_seta" onclick="pesquisa()">Preço⬆</th>
-                </tr>
-              </thead>
-              <tbody id="tabelaArmas"></tbody>
-            </table>
-      </div>
-    </div> 
+                  <div  class="container_tabela" id="tableBlock">
+                    
+                      <table class="tabelaArsenal" >
+                          <thead id="tabelaLista">
+                            <tr>
+                              <th>Imagem</th>
+                              <th>Nome</th>
+                              <th id="dano_seta">Dano</th>
+                              <th>Tipo</th>
+                              <th class="preço_style" id="preco_seta" onclick="pesquisa()">Preço⬆</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tabelaArmas"></tbody>
+                      </table>
+                  
+                </div> 
     
 
 
@@ -98,6 +99,36 @@
 </body>
 </html>
 <script>
+  if(sessionStorage.length == 0){
+        console.log('Usuario não logado/Usuario deslogou')
+        var botaoLogin = document.getElementById('botãoLoginUserPage')
+        var tabelaArsenal = document.getElementById('tableBlock')
+        botaoLogin.innerHTML =""
+        botaoLogin.innerHTML = `
+        <a href="./login-page.html" style="text-decoration: none;">
+            <div class="login_button main_font">Login</div>
+        </a>
+        `
+        tabelaArsenal.innerHTML = `
+        <div class="table_block">
+        <p>REGISTRE-SE/LOGUE PARA VER A TABELA DO ARSENAL</p> 
+        <br> 
+        <div class="button_campo">
+        <a href="./register-page.html"><button >REGISTRE-SE</button></a><a href="./login-page.html"><button >LOGIN</button></a>
+        </div>
+        </div>
+        `
+    }
+    else{
+        var botaoLogin = document.getElementById('botãoLoginUserPage')
+        botaoLogin.innerHTML =""
+        botaoLogin.innerHTML = `
+        <a href="./user-perfil.html" style="text-decoration: none;">
+            <div class="login_button main_font">SEU PERFIL</div>
+        </a>
+        `
+    }
+       
 
 if(sessionStorage.ID_USUARIO !=undefined){
        var botaoLogin = document.getElementById('botãoLoginUserPage')
@@ -124,77 +155,144 @@ const setaPreço = document.getElementById('preco_seta')
       }
   })
 // FUNÇÃO QUE BUSCA NO BANCO POR NOME
-function pesquisa(){
+function pesquisa() {
   var pesquisaVar = pesquisa_input.value;
-  //VARIAVEL DE ORDENAÇÃO POR PREÇO : CRESENTE OU DESCRESENTE
   var orederPreçoVar = setaPreço.innerText;
-    if(orederPreçoVar == 'Preço⬆'){
-      orederPreçoVar = 'DESC';
-    }
-    else if(orederPreçoVar == 'Preço⬇'){
-      orederPreçoVar = 'ASC'
-    }
 
-  if(pesquisaVar != undefined){
-  // FETCH QUE ENVIA AS VARIAVES 
-  // PARA O BACK-END E CHAMA A FUNÇÃO NO BACK
-  fetch("/arsenal/pesquisar", {
-  method: "POST",
-  headers: {"Content-Type": "application/json"},
-  body: JSON.stringify
-  ({ 
-    pesquisaServer: pesquisaVar,
-    orderPreçoServer: orederPreçoVar
-  }),
-})
-// RECEBE O RESULTADO DO BACK-END
-.then(res => {
-  // VERIFICA A RESPOSTA DO BACK-END
-  if (!res.ok || res.status === 204) {
-    return [];
+  if (orederPreçoVar == 'Preço⬆') {
+    orederPreçoVar = 'DESC';
+  } else if (orederPreçoVar == 'Preço⬇') {
+    orederPreçoVar = 'ASC';
   }
-  return res.json();
-})
-// ORDENA E PRINTA DADOS DO BACK A TABELA
-.then(armas => {
-  const tabela = document.getElementById("tabelaArmas");
-  tabela.innerHTML = ""; 
-  armas.forEach(arma => {
-      if (arma.tipo == 'Pistol' && arma.danoMax == arma.danoMin) {
-        tabela.innerHTML += `
-          <tr>
-            <td><div class="arma_bg"><img src="${arma.imagem}" width="100"></div></td>
+
+  if (pesquisaVar !== undefined) {
+    fetch("/arsenal/pesquisar", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pesquisaServer: pesquisaVar,
+        orderPreçoServer: orederPreçoVar
+      }),
+    })
+      .then(res => {
+        if (!res.ok || res.status === 204) {
+          return [];
+        }
+        return res.json();
+      })
+      .then(armas => {
+        const tabela = document.getElementById("tabelaArmas");
+        tabela.innerHTML = "";
+
+        armas.forEach((arma, index) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td><div class="arma_bg"><img src="${arma.imagem}" width="${arma.tipo === 'Pistol' ? '100' : '200'}"></div></td>
             <td><div class="arma_nome">${arma.nome}<div class="line"></div></div></td>
-            <td><div class="arma_dano">${arma.danoMax}</div></td>
+            <td><div class="arma_dano">${arma.danoMin === arma.danoMax ? arma.danoMax : arma.danoMin + '-' + arma.danoMax}</div></td>
             <td><div class="arma_tipo">${arma.tipo}</div></td>
             <td><div class="arma_preço">${arma.preço}<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="35px" height="35px"></div></td>
-          </tr>`;
-      } 
-      else if (arma.tipo != 'Pistol' && arma.danoMax == arma.danoMin) {
-        tabela.innerHTML += `
-          <tr>
-            <td><div class="arma_bg"><img src="${arma.imagem}" width="200"></div></td>
-            <td><div class="arma_nome">${arma.nome}<div class="line"></div></div></td>
-            <td><div class="arma_dano">${arma.danoMax}</div></td>
-            <td><div class="arma_tipo">${arma.tipo}</div></td>
-            <td><div class="arma_preço">${arma.preço}<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="35px" height="35px"></div></td>
-          </tr>`;
-      } 
-      else if (arma.tipo != 'Pistol' && arma.danoMax != arma.danoMin) {
-        tabela.innerHTML += `
-          <tr>
-            <td><div class="arma_bg"><img src="${arma.imagem}" width="200"></div></td>
-            <td><div class="arma_nome">${arma.nome}<div class="line"></div></div></td>
-            <td><div class="arma_dano">${arma.danoMin}-${arma.danoMax}</div></td>
-            <td><div class="arma_tipo">${arma.tipo}</div></td>
-            <td><div class="arma_preço">${arma.preço}<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="35px" height="35px"></div></td>
-          </tr>`;
-      }
-      
-  });
-});
+          `;
+          row.style.cursor = "pointer";
+
+          const detailRow = document.createElement("tr");
+          const detailCell = document.createElement("td");
+          detailCell.colSpan = 5;
+          detailCell.style.display = 'none';
+
+          const descricao = arma.descricao ? arma.descricao : 'Sem descrição disponível.';
+          detailCell.innerHTML = `
+            <div class="title">${arma.nome}</div>
+            <div class="container_arma_desc" id="desc_${index}" style="display: none;">
+              <div class="tipo_munições_table">
+                <table id="DetalhesMunicao">
+                  <thead id="tabela_munição">
+                    <tr>
+                      <th>Tipos De Munição</th>
+                      <th>Dano a 25 Metros</th>
+                      <th>Dano a 50 Metros</th>
+                      <th>Dano a 100 Metros</th>
+                      <th>Dano a 150 Metros</th>
+                    </tr>
+                  </thead>
+                </table>
+                <div class="descricao_arma" id="descricao_container">
+                  <p>${descricao}</p>
+                  <div class="favoritar_arma" id="favoritar_campo_${arma.idArma}">
+                    Deseja Favoritar essa Arma?
+                    <button onclick="favoritar(${arma.idArma})" class="button_fav">favoritar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Preenchendo a tabela de munições
+          const tiposMunicao = arma.tiposMunicao ? arma.tiposMunicao.split(',').map(item => item.trim()) : [];
+          const tabelaMunicao = detailCell.querySelector("#DetalhesMunicao");
+
+          tiposMunicao.forEach(tipo => {
+            let dano;
+            if (tipo === 'Normal') {
+              dano = `
+                <td>${arma.danoNormal_25m}</td>
+                <td>${arma.danoNormal_50m}</td>
+                <td>${arma.danoNormal_100m}</td>
+                <td>${arma.danoNormal_150m}</td>`;
+              tabelaMunicao.innerHTML += `<tr><td>Normal</td>${dano}</tr>`;
+            } else if (tipo === 'Veneno') {
+              dano = `
+                <td>${arma.danoVeneno_25m}</td>
+                <td>${arma.danoVeneno_50m}</td>
+                <td>${arma.danoVeneno_100m}</td>
+                <td>${arma.danoVeneno_150m}</td>`;
+              tabelaMunicao.innerHTML += `<tr><td>Veneno <img src="https://hunt-stats.com/equipment/diamond_tags/poison_medium.png" width="35px"></td>${dano}</tr>`;
+            } else if (tipo === 'Incendiária' || tipo === 'Incendiaria') {
+              dano = `
+                <td>${arma.danoIncendiaria_25m}</td>
+                <td>${arma.danoIncendiaria_50m}</td>
+                <td>${arma.danoIncendiaria_100m}</td>
+                <td>${arma.danoIncendiaria_150m}</td>`;
+              tabelaMunicao.innerHTML += `<tr><td>Incendiária <img src="https://hunt-stats.com/equipment/diamond_tags/fire_medium.png" width="35px"></td>${dano}</tr>`;
+            } else if (tipo === 'Dumdum' || tipo === 'Sangramento') {
+              dano = `
+                <td>${arma.danoSangramento_25m}</td>
+                <td>${arma.danoSangramento_50m}</td>
+                <td>${arma.danoSangramento_100m}</td>
+                <td>${arma.danoSangramento_150m}</td>`;
+              tabelaMunicao.innerHTML += `<tr><td>Dum-Dum <img src="https://hunt-stats.com/equipment/diamond_tags/rending_intense.png" width="35px"></td>${dano}</tr>`;
+            } else if (tipo === 'Explosiva') {
+              dano = `
+                <td>${arma.danoExplosiva_25m}</td>
+                <td>${arma.danoExplosiva_50m}</td>
+                <td>${arma.danoExplosiva_100m}</td>
+                <td>${arma.danoExplosiva_150m}</td>`;
+              tabelaMunicao.innerHTML += `<tr><td>Explosiva <img src="https://hunt-stats.com/equipment/diamond_tags/explosive.png" width="35px"></td>${dano}</tr>`;
+            }
+          });
+
+          detailRow.appendChild(detailCell);
+
+          row.addEventListener('click', () => {
+            const detalhe = document.getElementById(`desc_${index}`);
+            if (detalhe.style.display === 'none') {
+              row.style.backgroundColor = 'rgba(255, 255, 255, 0.350)';
+              detailCell.style.display = 'revert';
+              detalhe.style.display = 'flex';
+            } else {
+              row.style.backgroundColor = "";
+              detailCell.style.display = "none";
+              detalhe.style.display = 'none';
+            }
+          });
+
+          tabela.appendChild(row);
+          tabela.appendChild(detailRow);
+        });
+      });
+  }
 }
-}
+
 fetch("/arsenal/listar", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
@@ -227,47 +325,7 @@ fetch("/arsenal/listar", {
       detailCell.innerHTML = `
       <div class="title" > ${arma.nome} </div>
       <div class="container_arma_desc" id="desc_${index}" style="display: none;">
-                  <div class="container_carrocel" id="carrossel_${arma.idArma}" data-slide="0">
-
-                    <div class="carrossel_slide ativo">
-                      <div class="corpo_container">
-                        <div class="corpo_title">
-                          <h2> TIPO MUNIÇÃO - NORMAL </h2>
-                        </div>
-                        <div class="corpo">
-                          <p class="head">――― 150</p>
-                          <p class="tronco">―――${arma.danoTronco}</p>
-                          <p class="braço">―――${arma.danoBraço}</p>
-                          <p class="perna">―――${arma.danoPerna}</p>
-                        </div>
-                        </div>
-                      <div class="carousel-buttons">
-                        <button onclick="mudarSlide('carrossel_${arma.idArma}', -1)">Anterior</button>
-                        <button onclick="mudarSlide('carrossel_${arma.idArma}', 1)">Próximo</button>
-                        </div>
-                    </div>
-                    
-                    <div class="carrossel_slide">
-                      <div class="corpo_container">
-                        <div class="corpo_title">
-                          <h2> TIPO MUNIÇÃO - VENENO </h2>
-                        </div>
-                        <div class="corpo">
-                          <p class="head">――― 999</p>
-                          <p class="tronco">―――${arma.danoTronco}</p>
-                          <p class="braço">―――${arma.danoBraço}</p>
-                          <p class="perna">―――${arma.danoPerna}</p>
-                        </div>
-                      </div>
-                      <div class="carousel-buttons">
-                        <button onclick="mudarSlide('carrossel_${arma.idArma}', -1)">Anterior</button>
-                        <button onclick="mudarSlide('carrossel_${arma.idArma}', 1)">Próximo</button>
-                      </div>
-                      </div>
-
-                      </div> <FECHAMENTO DO CARROSSEL!!!>
-
-                        <div class="tipo_munições_table">
+                  <div class="tipo_munições_table">
                     <table id="DetalhesMunicao">
                         <thead id="tabela_munição">
                           <tr>
@@ -365,9 +423,11 @@ fetch("/arsenal/listar", {
             row.addEventListener('click', () => {
               const detalhe = document.getElementById(`desc_${index}`);
               if (detalhe.style.display === 'none') {
+                row.style.backgroundColor = 'rgba(255, 255, 255, 0.350)';
                 detailCell.style.display = 'revert';
                 detalhe.style.display = 'flex';
               } else {
+                row.style.backgroundColor = ""
                 detailCell.style.display = "none";
                 detalhe.style.display = 'none';
               }
@@ -378,22 +438,6 @@ fetch("/arsenal/listar", {
             tabela.appendChild(detailRow);
           });
         });
-
-        function mudarSlide(carrosselId, direcao) {
-        const carrossel = document.getElementById(carrosselId);
-        const slides = carrossel.querySelectorAll(".carrossel_slide");
-        let slideAtual = parseInt(carrossel.getAttribute("data-slide")) || 0;
-
-        slideAtual += direcao;
-        if (slideAtual < 0) slideAtual = slides.length - 1;
-        if (slideAtual >= slides.length) slideAtual = 0;
-
-        slides.forEach((slide, i) => {
-          slide.classList.toggle("ativo", i === slideAtual);
-        });
-
-        carrossel.setAttribute("data-slide", slideAtual);
-      }
 
 function favoritar(idArma) {
     idArmaVar = idArma;
@@ -409,7 +453,7 @@ function favoritar(idArma) {
   })
   .then(resposta => {
     if (resposta.ok) {
-      console.log('Alterando Botão')
+      console.log('Alterando Botão', idArma)
       var divFavoritar = document.getElementById(`favoritar_campo_${idArma}`);
       divFavoritar.innerHTML = 
       `
@@ -464,6 +508,7 @@ fetch("/arsenal/armasFavoritadas", {
         .then(armasFavoritadas =>{
           console.log(armasFavoritadas.length)
           for(var i = 0; i < armasFavoritadas.length;){
+          console.log(armasFavoritadas[i].idArma)
           var divFavoritar = document.getElementById(`favoritar_campo_${armasFavoritadas[i].idArma}`);
           divFavoritar.innerHTML = ""
           divFavoritar.innerHTML = 

@@ -23,7 +23,9 @@ router.get("/tipoMaisFav", function (req,res){
 router.get("/tipoMenosFav", function (req,res){
     dashboardController.tipoMenosFav(req,res);
 })
-
+router.post("/listarFavUsuario", function(req,res){
+    dashboardController.listarFavUsuario(req,res)
+})
 
 
 module.exports = router;

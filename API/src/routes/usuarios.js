@@ -15,4 +15,18 @@ router.post("/autenticar", function (req, res) {
 router.post("/verificarEmail", function (req, res){
     usuarioController.verificarEmail(req,res);
 });
+router.post("/verificarSenha", function (req, res) {
+    usuarioController.verificarSenha(req, res);
+});
+router.post("/alterarNome", function (req,res){
+    usuarioController.alterarNome(req,res);
+})
+router.post("/alterarEmail", function (req,res){
+    usuarioController.alterarEmail(req,res);
+})
+router.post("/alterarSenha", function (req,res){
+    usuarioController.alterarSenha(req,res);
+})
+
+
 module.exports = router;

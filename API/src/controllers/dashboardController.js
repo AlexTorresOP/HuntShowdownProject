@@ -1,5 +1,18 @@
 const dashboardModel = require("../models/dashboardModel");
 
+function listarFavUsuario(req,res){
+    var idUsuario = req.body.idUsuarioServer
+    dashboardModel.listarFavUsuario(idUsuario)
+    .then(resultado => {
+        res.status(200).json(resultado)
+    })
+    .catch(erro => {
+        console.error("Erro ao listar favoritadas", erro);
+        res.status(500).json({erro: "Erro interno no servidor"})
+    })
+}
+
+
 function listar(req,res){
     dashboardModel.listar()
         .then(resultado => {
@@ -85,5 +98,6 @@ module.exports = {
     listarUsuarios,
     mediaPreco,
     tipoMaisFav,
-    tipoMenosFav
+    tipoMenosFav,
+    listarFavUsuario
 };

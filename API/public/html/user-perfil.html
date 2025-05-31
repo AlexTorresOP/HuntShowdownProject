@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/user.css">
     <title>Hunt - Dashboard</title>
+    <style>
+
+    </style>
 </head>
 <body>
     <div class="container_pai">
         <div class="user_container">
             <div class="user_title main_font">
-                <h1 id="user_name_place">BEM VINDO <br> <span class="user_nome"></span></h1>
+                <h1 id="user_name_place">BEM VINDO <br> <span class="user_nome" id="user_nome"></span></h1>
                 <div class="line"></div>
             </div>
             <div class="user_nav">
@@ -34,24 +37,416 @@
         </div>
 
         <div class="content_container">
-            <div class="dashboard_container">
+            <div class="usuario_container">
+              <div class="usuario_campo">
+                <div class="usuario_title">
+                  SUAS INFORMAÇÕES
+                </div>
+                <div class="usuario_info">
 
-                <div class="dashboard_title main_font">Armas Favoritadas Por Você</div>
-                <div class="line_white"></div>
-                <div class="dashboard_content">
-
-                   
+                  <div class="usuario_nome" id="usuario_nome">
+                    NOME DE USUÁRIO -
+                  </div>
+                  <div class="usuario email" id="usuario_email">
+                    EMAIL - 
+                  </div>
+                  <button class="aterar_senha nav_button" onclick="modalEmail()">ALTERAR EMAIL</button>
+                  <button class="aterar_senha nav_button" onclick="modalNome()">ALTERAR NOME</button>
+                  <button class="aterar_senha nav_button" onclick="modalSenha()">ALTERAR SENHA</button>
+  
+                  
 
                 </div>
+
+              </div>
+              <div class="favoritos_container">
+                <div class="dashboard_title main_font">Armas Favoritadas Por Você</div>
+                <div class="line_white"></div>
+                <div class="dashboard_content usuario_favoritos" id="armaLista">
+
+                </div>
+              </div>
 
             </div>
         </div>
     </div>
+
+    <div class="modalAlterarNome" id="modalAlterarNome">
+      <div class="modal">
+        <button class="x" onclick="fecharModal()">X</button>
+        <h2>ALTERAR NOME</h2>
+        <p>SENHA:</p><input type="password" id="senhaNomeInput">
+        <div id="mensagemSenhaNome" style="color: red;"></div>
+        <p>NOVO NOME:</p><input type="text" id="novoNome">
+        <div id="mensagem" style="color: red;"></div>
+        <div id="mensagemAlteraçãoNome" style="color: rgb(38, 255, 0);"></div>
+        <button class="conf_button" onclick="alterarNome()">CONFIRMAR</button>
+      </div>
+    </div>
+
+    <div class="modalAlterarNome" id="modalAlterarEmail">
+      <div class="modal">
+        <button class="x" onclick="fecharModal()">X</button>
+        <h2>ALTERAR NOME</h2>
+        <p>SENHA:</p><input type="password" id="senhaEmailInput">
+        <div id="mensagemSenhaEmail" style="color: red;"></div>
+        <p>NOVO EMAIL:</p><input type="text" id="novoEmail">
+        <div id="mensagem" style="color: red;"></div>
+        <div id="mensagemAlteraçãoEmail" style="color: rgb(38, 255, 0);"></div>
+        <button class="conf_button" onclick="alterarEmail()">CONFIRMAR</button>
+      </div>
+    </div>
+
+    <div class="modalAlterarNome" id="modalAlterarSenha">
+      <div class="modal">
+        <button class="x" onclick="fecharModal()">X</button>
+        <h2>ALTERAR NOME</h2>
+        <p>SENHA:</p><input type="password" id="senhaPrincipal">
+        <div id="mensagemSenhaSenha" style="color: red;"></div>
+        <p>NOVA SENHA:</p><input type="text" id="novaSenha1">
+        <p>REPITA SENHA:</p><input type="text" id="novaSenha2">
+        <div id="mensagemSenhas" style="color: red;"></div>
+        <div id="mensagemAlteraçãoSenha" style="color: rgb(38, 255, 0);"></div>
+        <button class="conf_button" onclick="alterarSenha()">CONFIRMAR</button>
+      </div>
+    </div>
+
+
+
+
 </body>
 <script>
+  usuario_nome.innerHTML += sessionStorage.NOME_USUARIO
+  usuario_email.innerHTML += sessionStorage.EMAIL_USUARIO
+
   user_name_place.innerHTML += `<span class="user_nome">${sessionStorage.NOME_USUARIO}</span>`
   function logout(){
-    sessionStorage = undefined;
+  sessionStorage.clear() 
+  window.location.href = "../index.html"
   }
+
+
+  fetch("/dashboard/listarFavUsuario", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              idUsuarioServer: sessionStorage.ID_USUARIO
+            })
+  })
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro na reposta da listagem: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(lista => {
+      console.log('Lista das Armas Favoritadas Por Usuario', lista);
+      for(var i = 0 ; i < lista.length;i++){
+        armaLista.innerHTML += `
+        <div class="arma_container">
+            <h1>${lista[i].nome}</h1>
+                <img src="${lista[i].imagem}" alt="">
+            <div id="favoritar_campo_${lista[i].idArma}">
+              <button onclick="desfavoritar(${lista[i].idArma})">desfavoritar arma</button>
+            <div>
+        </div>
+        `
+      }
+      if(lista.length == 0){
+        armaLista.innerHTML += `
+        <div class="arma_container">
+            Você ainda não favoritou nenhuma arma<br>
+            vá fazer isso!
+              <a href="./arsenal.html" style="text-decoration:none;">
+                <div class="logout_button main_font">ARSENAL</div>
+              </a>
+
+        </div>
+        `
+      }
+    })
+
+function desfavoritar(idArma){
+    idArmaVar = idArma;
+    idUsuarioVar = sessionStorage.ID_USUARIO;
+    fetch("/arsenal/desfavoritar", {
+      method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      idArmaServer : idArmaVar,
+      idUsuarioServer: idUsuarioVar
+    })
+  })
+  .then(resposta => {
+    if (resposta.ok) {
+      console.log('Alterando Botão')
+      var divFavoritar = document.getElementById(`favoritar_campo_${idArma}`);
+      divFavoritar.innerHTML = 
+      `
+      <button onclick="favoritar(${idArma})">Mudei de Ideia</button>
+      `
+    }
+  })
+}
+function favoritar(idArma) {
+    idArmaVar = idArma;
+    idUsuarioVar = sessionStorage.ID_USUARIO;
+
+  fetch("/arsenal/favoritar", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      idArmaServer : idArmaVar,
+      idUsuarioServer: idUsuarioVar
+    })
+  })
+  .then(resposta => {
+    if (resposta.ok) {
+      console.log('Alterando Botão')
+      var divFavoritar = document.getElementById(`favoritar_campo_${idArma}`);
+      divFavoritar.innerHTML = 
+      `
+      <button onclick="desfavoritar(${idArma})">desfavoritar arma</button>
+      `
+    } 
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+    alert('Erro ao favoritar a arma.');
+  });
+}
+
+function alterarNome(){
+  nomeVar = novoNome.value;
+  senhaVar= senhaNomeInput.value;
+  idUsuarioVar = sessionStorage.ID_USUARIO;
+  if (nomeVar.length < 6){
+    mensagem.innerHTML = "NOME MUITO CURTO"
+  }
+  else{
+    fetch("/usuarios/verificarSenha", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    senhaServer: senhaVar,
+                    idUsuarioServer: idUsuarioVar
+                  })
+                })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.status === "ok") {
+                    console.log("Senha correta!");
+                    mensagemAlteraçãoNome.innerHTML = 'NOME ALTERADO'
+                    mensagemSenhaNome.innerHTML = ""
+                    nomeAlterar()
+                  } else {
+                    console.log("Senha incorreta:", data.mensagem);
+                    mensagemSenhaNome.innerHTML = 'SENHA INCORRETA'
+                  }
+                })
+                .catch(err => {
+                  console.error("Erro na verificação da senha:", err);
+                });
+              }
+  }
+function nomeAlterar(){
+  nomeVar = novoNome.value;
+  idUsuarioVar = sessionStorage.ID_USUARIO;
+  console.log(nomeVar , idUsuarioVar)
+  fetch("/usuarios/alterarNome", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              idUsuarioServer: idUsuarioVar,
+              novoNomeServer: nomeVar
+            })
+  })
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro ao alterar nome: ${res.status}`)
+            mensagem.innerHTML = "SENHA INVALIDA"
+        }
+        return res.json()
+    })
+    .then(res =>{
+      console.log(res)
+      usuario_nome.innerHTML = `NOME DE USUÁRIO - ${res}`
+      sessionStorage.NOME_USUARIO = res
+    })
+}
+
+function alterarEmail(){
+  idUsuarioVar = sessionStorage.ID_USUARIO;
+  senhaVar = senhaEmailInput.value;
+  emailVar = novoEmail.value;
+  console.log(senhaVar,emailVar)
+  var emails = ['@gmail', '@hotmail', '@outlook'];
+  var formatoEmail = false;
+  if (!emailVar){
+    mensagem.innerHTML = "INSIRA UM EMAIL"
+  }
+  else if(emailVar != undefined){
+        for (var i = 0; i < emails.length; i++) {
+            if (emailVar.includes(emails[i])) {
+                formatoEmail = true;
+                break;
+                }
+            }
+            if (!formatoEmail){
+                mensagem.innerHTML = "FORMATO DE EMAIL INVALIDO"
+            }
+            
+            
+            else{
+              fetch("/usuarios/verificarSenha", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    senhaServer: senhaVar,
+                    idUsuarioServer: idUsuarioVar
+                  })
+                })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.status === "ok") {
+                    console.log("Senha correta!");
+                    mensagemAlteraçãoEmail.innerHTML = 'EMAIL ALTERADO'
+                    mensagemSenhaEmail.innerHTML = ""
+                    emailAlterar()
+                  } else {
+                    console.log("Senha incorreta:", data.mensagem);
+                    mensagemSenhaEmail.innerHTML = 'SENHA INCORRETA'
+                  }
+                })
+                .catch(err => {
+                  console.error("Erro na verificação da senha:", err);
+                });
+              }
+            }
+    } 
+function emailAlterar(){
+  emailVar = novoEmail.value;
+  idUsuarioVar = sessionStorage.ID_USUARIO;
+  fetch("/usuarios/alterarEmail", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              idUsuarioServer: idUsuarioVar,
+              novoEmailServer: emailVar
+            })
+  })
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro ao alterar nome: ${res.status}`)
+        }
+        return res.json()
+    })
+    .then(res =>{
+      console.log(res)
+      usuario_email.innerHTML = `EMAIL - ${res}`
+      sessionStorage.EMAIL_USUARIO = res
+    })
+}
+
+function alterarSenha(){
+  var caracteres = ['@', '#', '!', '$', '&', '*'];
+  var temCaractereEspecial = false;
+  senhaVar = senhaPrincipal.value;
+  idUsuarioVar = sessionStorage.ID_USUARIO;
+  senha1 = novaSenha1.value;
+  senha2 = novaSenha2.value;
+  if( senha1 != senha2 ){
+    mensagemSenhas.innerHTML = 'SENHAS NÃO CONFEREM'
+  }
+  for (var i = 0; i < caracteres.length; i++) {
+        if (senha1.includes(caracteres[i])) {
+            temCaractereEspecial = true;
+            break;
+            }
+        }
+        if (senha2.length < 8 || !temCaractereEspecial){
+          mensagemSenhas.innerHTML = "Senha Muito Fraca! -Deve ter ao menos 8 caracteres e 1 caractere especial (@,#,!,$,&,*)";
+    }
+    else{
+      mensagemSenhas.innerHTML = ""
+      fetch("/usuarios/verificarSenha", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    senhaServer: senhaVar,
+                    idUsuarioServer: idUsuarioVar
+                  })
+                })
+                .then(res => res.json())
+                .then(data => {
+                  if (data.status === "ok") {
+                    console.log("Senha correta!");
+                    mensagemAlteraçãoSenha.innerHTML = 'SENHA ALTERADA'
+                    mensagemSenhaSenha.innerHTML = ""
+                    console.log('EXECUTANDO ALTERAÇÃO DE SENHA')
+                    SenhaAlterar()
+                  } else {
+                    console.log("Senha incorreta:", data.mensagem);
+                    mensagemSenhaSenha.innerHTML = 'SENHA INCORRETA'
+                  }
+                })
+                .catch(err => {
+                  console.error("Erro na verificação da senha:", err);
+                });
+    }
+}
+function SenhaAlterar(){
+  senhaVar = novaSenha1.value;
+  idUsuarioVar = sessionStorage.ID_USUARIO;
+  console.log(senhaVar , idUsuarioVar)
+  fetch("/usuarios/alterarSenha", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              idUsuarioServer: idUsuarioVar,
+              senhaServer: senhaVar
+            })
+  })
+    .then(res => {
+        if(!res.ok) {
+            throw new Error(`Erro ao alterar nome: ${res.status}`)
+            mensagem.innerHTML = "SENHA INVALIDA"
+        }
+        return res.json()
+    })
+    .then(res =>{
+      console.log(res)
+    })
+
+}
+
+
+
+
+
+function modalNome() {
+      document.getElementById("modalAlterarNome").style.display = "flex";
+}
+function modalEmail() {
+      document.getElementById("modalAlterarEmail").style.display = "flex";
+}
+function modalSenha() {
+      document.getElementById("modalAlterarSenha").style.display = "flex";
+}
+
+function fecharModal() {
+      document.getElementById("modalAlterarNome").style.display = "none";
+      document.getElementById("modalAlterarSenha").style.display = "none";
+      document.getElementById("modalAlterarEmail").style.display = "none";
+}
+
 </script>
 </html>
