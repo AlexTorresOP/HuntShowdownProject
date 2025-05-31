@@ -86,47 +86,6 @@ CREATE TABLE detalhesArma (
     danoExplosiva_50m INT,
     danoExplosiva_100m INT,
     danoExplosiva_150m INT,
-	-- Dano com munição INCENDIARIA por distância
-    danoIncendiaria_25m INT,
-    danoIncendiaria_50m INT,
-    danoIncendiaria_100m INT,
-    danoIncendiaria_150m INT,
-	-- Dano com munição INCENDIARIA por distância
-    danoSubsonica_25m INT,
-    danoSubsonica_50m INT,
-    danoSubsonica_100m INT,
-    danoSubsonica_150m INT,
-    alcanceEfetivo INT, 
-    tempoRecarga FLOAT,
-    cadenciaTiro INT,
-    descricao TEXT, 
-    FOREIGN KEY (idArma) REFERENCES armas(idArma)
-);
-
-CREATE TABLE detalhesArma (
-    idDetalhe INT AUTO_INCREMENT PRIMARY KEY,
-    idArma INT NOT NULL,
-    tiposMunicao VARCHAR(255),
-    -- Dano com munição NORMAL por distância
-    danoNormal_25m INT,
-    danoNormal_50m INT,
-    danoNormal_100m INT,
-    danoNormal_150m INT,
-    -- Dano com munição VENENO por distância
-    danoVeneno_25m INT,
-    danoVeneno_50m INT,
-    danoVeneno_100m INT,
-    danoVeneno_150m INT,
-    -- Dano com munição SANGRAMENTO por distância
-    danoSangramento_25m INT,
-    danoSangramento_50m INT,
-    danoSangramento_100m INT,
-    danoSangramento_150m INT,
-    -- Dano com munição EXPLOSIVA por distância
-    danoExplosiva_25m INT,
-    danoExplosiva_50m INT,
-    danoExplosiva_100m INT,
-    danoExplosiva_150m INT,
     -- Dano com munição INCENDIÁRIA por distância
     danoIncendiaria_25m INT,
     danoIncendiaria_50m INT,
@@ -302,9 +261,29 @@ SELECT af.idArma, a.nome, COUNT(*) AS TotalFavoritadas FROM armasFavoritos AS af
 JOIN armas AS a ON af.idArma = a.idArma
 GROUP BY af.idArma, a.nome ORDER BY TotalFavoritadas DESC;
 
-SELECT a.tipoMunição , a.nome , af.idArma, COUNT(tipoMunição) AS TipoMuniçãoMaisFavoritados FROM armasFavoritos AS af 
+SELECT a.tipoMunição, COUNT(*) AS TipoMuniçãoMaisFavoritadas
+FROM armasFavoritos AS af
 JOIN armas AS a ON af.idArma = a.idArma
-GROUP BY tipoMunição ORDER BY TipoMuniçãoMaisFavoritados DESC;
+GROUP BY a.tipoMunição ORDER BY TipoMuniçãoMaisFavoritadas DESC;                                 
+
+
+SELECT a.tipo, COUNT(*) AS vezesFavoritados
+FROM armas AS a
+JOIN armasFavoritos AS af ON a.idArma = af.idArma
+GROUP BY a.tipo
+ORDER BY vezesFavoritados DESC LIMIT 1;
+
+SELECT a.tipo, COUNT(*) AS vezesFavoritados
+FROM armas AS a
+JOIN armasFavoritos AS af ON a.idArma = af.idArma
+GROUP BY a.tipo
+ORDER BY vezesFavoritados ASC LIMIT 1;
+
+SELECT a.nome , a.imagem from armas as a join armasFavoritos as f on a.idArma = f.idArma where f.idUsuario = 4;
+
+SELECT idArma,idUsuario FROM armasFavoritos WHERE idUsuario = 1;
+
+DELETE FROM armasFavoritos WHERE idArma = 1 AND idUsuario = 1;
 
 drop table armasFavoritos;
 
