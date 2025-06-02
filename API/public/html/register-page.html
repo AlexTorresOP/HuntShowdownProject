@@ -30,7 +30,7 @@
             </div>
              <div class="container">
                 <div class="home-button-register">
-                    <a href="./index.html"><p>⭠ HOME</p></a>
+                    <a href="../index.html"><p>⭠ HOME</p></a>
                 </div>
                  <div class="login-campo">
 
@@ -137,7 +137,7 @@ function verify(){
             }
         }
     
-        if (senha2.length < 8 || !temCaractereEspecial){
+    if (senha2.length < 8 || !temCaractereEspecial){
         psswd_error.style.opacity = '100'
         campo_senha1.style.border = 'solid 2px rgba(255, 0, 0, 0.911)';
         campo_senha2.style.border = 'solid 2px rgba(255, 0, 0, 0.911)';
@@ -152,7 +152,7 @@ function verify(){
 
         psswd_error.style.opacity = '100';
         psswd_error.style.marginTop = '20px'
-    }else{
+    }else if(senha1 == senha1 && temCaractereEspecial == true){
         var senhaStatus = "ok"
     }
 // FIM SENHA VERIFY

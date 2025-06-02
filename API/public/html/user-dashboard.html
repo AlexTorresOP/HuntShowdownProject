@@ -117,7 +117,15 @@ fetch("/dashboard/mediaPreco")
     .then(media => {
       console.log('Media Das Armas Favoritadas:', media);
       var mediaPreco = document.getElementById('media_preco')
-      mediaPreco.innerHTML = `${media[0].MediaGeralArmasFavoritadas }<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="45px" height="45px">`
+      if(media[0].MediaGeralArmasFavoritadas > 100){
+        mediaPreco.style.color = "red"
+      }else if(media[0].MediaGeralArmasFavoritadas > 150){
+        mediaPreco.style.color = "yellow"
+      }else{
+        mediaPreco.style.color = "green"
+      }
+        mediaPreco.innerHTML = `${media[0].MediaGeralArmasFavoritadas }<img src="https://hunt-stats.com/equipment/hunt_dollars_icon.png" width="45px" height="45px">`
+
     })
 
 fetch("/dashboard/tipoMaisFav")

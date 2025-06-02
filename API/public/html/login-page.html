@@ -18,7 +18,7 @@
                  <div class="login-campo">
 
                     <div class="title">
-                        <h1>User Login</h1>
+                        <h1>LOGIN</h1>
                         <div class="line"></div>
                     </div>
                      <div class="campo">
@@ -29,10 +29,7 @@
                         <eye id="eye"><img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd()"></eye>
                      </div>
                         <div class="passw-rec">
-                            <div> 
-                                <label for="checkbox" class="checkbox"><input type="checkbox" onclick="lembrarDeMim()"></label>Lembre de mim
-                            </div>
-                            <a href=""><p>Esqueceu sua senha?</p></a>
+                        
                         </div>
 
                      <div class="button-campo">
@@ -60,10 +57,10 @@
 
         if (input.type === 'password') {
         input.type = 'text';
-        eye.innerHTML = '<img src="./images/open eye.png" alt="" class="icon-eye" onclick="show_passwd()" id="eye-psswd">';
+        eye.innerHTML = '<img src="../images/open eye.png" alt="" class="icon-eye" onclick="show_passwd()" id="eye-psswd">';
         } else {
         input.type = 'password';
-        eye.innerHTML = '<img src="./images/close eye.png" alt="" class="icon-eye" onclick="show_passwd()" id="eye-psswd">';
+        eye.innerHTML = '<img src="../images/close eye.png" alt="" class="icon-eye" onclick="show_passwd()" id="eye-psswd">';
         }
     }
 

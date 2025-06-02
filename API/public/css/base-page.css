@@ -171,6 +171,47 @@ nav{
     -webkit-box-shadow: 0px -62px 57px 35px rgba(0,0,0,1);
     -moz-box-shadow: 0px -62px 57px 35px rgba(0,0,0,1);
 }
+.descricao_container p{
+    color: white;
+    font-family: 'Unfair';
+    font-size: 70px;
+    text-shadow: 0px 0px 50px rgba(255, 255, 255, 0.915);
+}
+.descricao_title{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 40px;
+    font-family: 'Unfair';
+    margin: 0;
+}
+.button_campo button{
+    font-family: 'Unfair';
+    font-size: 50px;
+    padding: 2px;
+    width: 400px;
+    height: 70px;
+    transition: all ease-in-out 0.3s;
+    border-radius: 5px;
+    border: 0;
+    margin: 15px;
+}
+.button_campo button:hover{
+    color: white;
+    font-size: 53px;
+    background-color: rgb(193, 193, 193);
+    box-shadow: 0px -1px 8px 7px rgba(255,255,255,0.18);
+    -webkit-box-shadow: 0px -1px 8px 7px rgba(255,255,255,0.18);
+    -moz-box-shadow: 0px -1px 8px 7px rgba(255,255,255,0.18);
+}
+.descricao_title p{
+    color: white;
+    font-size: 100px;
+    font-family: 'Unfair';
+    margin: 0;
+}
 .desc_caixa_campo{
     display: flex;
     flex-direction: row;
@@ -225,6 +266,13 @@ nav{
     background: -webkit-gradient(linear,left top, right top,from(transparent),color-stop(50%, #dae2e4),to(transparent));
     background: linear-gradient(to right,transparent 0%,#fff 50%,transparent 100%);
 }
+.line_title{
+    width: 550px;
+    height: 2px;
+    margin: 0px 2px 40px 0px;
+    background: -webkit-gradient(linear,left top, right top,from(transparent),color-stop(50%, #dae2e4),to(transparent));
+    background: linear-gradient(to right,transparent 0%,#fff 50%,transparent 100%);
+}
 .desc_text{
     display: flex;
     flex-direction: column;
@@ -249,8 +297,8 @@ nav{
     color: rgba(0, 0, 0, 0.859);
     margin: 0px 20px 0px 20px;
 
-    font-size: 23px;
-    font-family:'Times New Roman', Times, serif;
+    font-size: 22px;
+    font-family: 'Crimson Text';
     text-shadow: 4px 4px 12px rgba(0, 0, 0, 0.733);
 
     
@@ -281,7 +329,7 @@ footer{
     color: white;
     background-color: rgba(0, 0, 0, 0.802);
     margin: 0;
-    height: 80px;
+    height: 100px;
     width: 100%;
     box-shadow: 0px 53px 28px 54px rgba(255,255,255,0.56);
     -webkit-box-shadow: 0px 53px 28px 54px rgba(255,255,255,0.56);

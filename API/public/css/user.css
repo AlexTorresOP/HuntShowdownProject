@@ -164,7 +164,7 @@ body{
     font-size: 90px;
     padding: 20px;
     height: 80px;
-    width: 90%;
+    width: 86%;
     margin-top: 30px;
     border-radius: 15px;
 
@@ -238,7 +238,7 @@ body{
     /* border: 1px solid white; */
     height: 850px;
     width: 95%;
-    overflow:scroll;
+    overflow:hidden;
 }
 .container_kpis{
     display: flex;
@@ -279,7 +279,6 @@ body{
 }
 .box_kpi .mediaPreço{
     margin: 0;
-    color: rgba(174, 255, 0, 0.881);
     font-size: 50px;
     display: flex;
     flex-direction: row;

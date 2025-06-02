@@ -78,7 +78,7 @@
         <p>SENHA:</p><input type="password" id="senhaNomeInput">
         <div id="mensagemSenhaNome" style="color: red;"></div>
         <p>NOVO NOME:</p><input type="text" id="novoNome">
-        <div id="mensagem" style="color: red;"></div>
+        <div id="mensagemNome" style="color: red;"></div>
         <div id="mensagemAlteraçãoNome" style="color: rgb(38, 255, 0);"></div>
         <button class="conf_button" onclick="alterarNome()">CONFIRMAR</button>
       </div>
@@ -87,7 +87,7 @@
     <div class="modalAlterarNome" id="modalAlterarEmail">
       <div class="modal">
         <button class="x" onclick="fecharModal()">X</button>
-        <h2>ALTERAR NOME</h2>
+        <h2>ALTERAR EMAIL</h2>
         <p>SENHA:</p><input type="password" id="senhaEmailInput">
         <div id="mensagemSenhaEmail" style="color: red;"></div>
         <p>NOVO EMAIL:</p><input type="text" id="novoEmail">
@@ -100,7 +100,7 @@
     <div class="modalAlterarNome" id="modalAlterarSenha">
       <div class="modal">
         <button class="x" onclick="fecharModal()">X</button>
-        <h2>ALTERAR NOME</h2>
+        <h2>ALTERAR SENHA</h2>
         <p>SENHA:</p><input type="password" id="senhaPrincipal">
         <div id="mensagemSenhaSenha" style="color: red;"></div>
         <p>NOVA SENHA:</p><input type="text" id="novaSenha1">
@@ -223,9 +223,8 @@ function alterarNome(){
   senhaVar= senhaNomeInput.value;
   idUsuarioVar = sessionStorage.ID_USUARIO;
   if (nomeVar.length < 6){
-    mensagem.innerHTML = "NOME MUITO CURTO"
+    mensagemNome.innerHTML = "NOME MUITO CURTO"
   }
-  else{
     fetch("/usuarios/verificarSenha", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -236,21 +235,28 @@ function alterarNome(){
                 })
                 .then(res => res.json())
                 .then(data => {
-                  if (data.status === "ok") {
+                  if (data.status === "ok"){
+                    mensagemSenhaNome.innerHTML = ""
+                  }
+                  if (data.status === "ok" && nomeVar.length > 6) {
                     console.log("Senha correta!");
                     mensagemAlteraçãoNome.innerHTML = 'NOME ALTERADO'
+                    mensagemNome.innerHTML = ""
                     mensagemSenhaNome.innerHTML = ""
                     nomeAlterar()
-                  } else {
+                  } else if(data.status != "ok" && nomeVar.length < 6) {
                     console.log("Senha incorreta:", data.mensagem);
                     mensagemSenhaNome.innerHTML = 'SENHA INCORRETA'
+                    mensagemNome.innerHTML = "NOME MUITO CURTO"
+                  }
+                  else{
+                     mensagemNome.innerHTML = "NOME MUITO CURTO"
                   }
                 })
                 .catch(err => {
                   console.error("Erro na verificação da senha:", err);
                 });
               }
-  }
 function nomeAlterar(){
   nomeVar = novoNome.value;
   idUsuarioVar = sessionStorage.ID_USUARIO;
@@ -284,12 +290,13 @@ function alterarEmail(){
   senhaVar = senhaEmailInput.value;
   emailVar = novoEmail.value;
   console.log(senhaVar,emailVar)
-  var emails = ['@gmail', '@hotmail', '@outlook'];
+  var emails = ['@gmail.', '@hotmail.', '@outlook.'];
   var formatoEmail = false;
   if (!emailVar){
     mensagem.innerHTML = "INSIRA UM EMAIL"
+    mensagemAlteraçãoEmail.innerHTML = ''
   }
-  else if(emailVar != undefined){
+  else{
         for (var i = 0; i < emails.length; i++) {
             if (emailVar.includes(emails[i])) {
                 formatoEmail = true;
@@ -298,10 +305,8 @@ function alterarEmail(){
             }
             if (!formatoEmail){
                 mensagem.innerHTML = "FORMATO DE EMAIL INVALIDO"
+                mensagemAlteraçãoEmail.innerHTML = ''
             }
-            
-            
-            else{
               fetch("/usuarios/verificarSenha", {
                   method: "POST",
                   headers: { "Content-Type": "application/json" },
@@ -312,14 +317,21 @@ function alterarEmail(){
                 })
                 .then(res => res.json())
                 .then(data => {
-                  if (data.status === "ok") {
+                  if (data.status === "ok"){
+                    mensagemSenhaEmail.innerHTML = ""
+                  }
+                  if (data.status === "ok" && formatoEmail == true) {
                     console.log("Senha correta!");
                     mensagemAlteraçãoEmail.innerHTML = 'EMAIL ALTERADO'
+                    mensagem.innerHTML = ""
                     mensagemSenhaEmail.innerHTML = ""
                     emailAlterar()
-                  } else {
+                  } else if(formatoEmail != true) {
                     console.log("Senha incorreta:", data.mensagem);
-                    mensagemSenhaEmail.innerHTML = 'SENHA INCORRETA'
+                    mensagem.innerHTML = "FORMATO DE EMAIL INVALIDO"
+                  }
+                  else{
+                     mensagemSenhaEmail.innerHTML = 'SENHA INCORRETA'
                   }
                 })
                 .catch(err => {
@@ -327,7 +339,6 @@ function alterarEmail(){
                 });
               }
             }
-    } 
 function emailAlterar(){
   emailVar = novoEmail.value;
   idUsuarioVar = sessionStorage.ID_USUARIO;
@@ -373,7 +384,9 @@ function alterarSenha(){
         if (senha2.length < 8 || !temCaractereEspecial){
           mensagemSenhas.innerHTML = "Senha Muito Fraca! -Deve ter ao menos 8 caracteres e 1 caractere especial (@,#,!,$,&,*)";
     }
-    else{
+    else if(senha1 == senhaVar){
+      mensagemSenhas.innerHTML = "A Nova senha nao pode ser igual a antiga!"
+    }
       mensagemSenhas.innerHTML = ""
       fetch("/usuarios/verificarSenha", {
                   method: "POST",
@@ -385,7 +398,7 @@ function alterarSenha(){
                 })
                 .then(res => res.json())
                 .then(data => {
-                  if (data.status === "ok") {
+                  if (data.status === "ok" || senha1.length > 8 && temCaractereEspecial == true) {
                     console.log("Senha correta!");
                     mensagemAlteraçãoSenha.innerHTML = 'SENHA ALTERADA'
                     mensagemSenhaSenha.innerHTML = ""
@@ -394,14 +407,14 @@ function alterarSenha(){
                   } else {
                     console.log("Senha incorreta:", data.mensagem);
                     mensagemSenhaSenha.innerHTML = 'SENHA INCORRETA'
+                    mensagemSenhas.innerHTML = "Senha Muito Fraca! -Deve ter ao menos 8 caracteres e 1 caractere especial (@,#,!,$,&,*)";
                   }
                 })
                 .catch(err => {
                   console.error("Erro na verificação da senha:", err);
                 });
-    }
 }
-function SenhaAlterar(){
+function SenhaAlterar(SenhaAtual){
   senhaVar = novaSenha1.value;
   idUsuarioVar = sessionStorage.ID_USUARIO;
   console.log(senhaVar , idUsuarioVar)
@@ -420,6 +433,7 @@ function SenhaAlterar(){
             throw new Error(`Erro ao alterar nome: ${res.status}`)
             mensagem.innerHTML = "SENHA INVALIDA"
         }
+        if(senhaVar)
         return res.json()
     })
     .then(res =>{

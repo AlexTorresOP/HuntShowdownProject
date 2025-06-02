@@ -13,15 +13,6 @@ describe usuario;
 select * from usuario;
 
 CREATE TABLE armas (
-    idArma INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    preço DECIMAL(10,2) NOT NULL,
-    tipoMunição VARCHAR(50) NOT NULL,
-    tamanho VARCHAR(50) NOT NULL,
-    dano INT NOT NULL,
-    imagem VARCHAR(255) NOT NULL
-);
-CREATE TABLE armas (
     idArma INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(100) NOT NULL,
     preço INT,
@@ -257,31 +248,37 @@ CREATE TABLE armasFavoritos (
 
 select * from armasFavoritos;
 
+--ATodas as armas favoritadas do sistema
 SELECT af.idArma, a.nome, COUNT(*) AS TotalFavoritadas FROM armasFavoritos AS af 
 JOIN armas AS a ON af.idArma = a.idArma
 GROUP BY af.idArma, a.nome ORDER BY TotalFavoritadas DESC;
 
+-- Tipos de munição mais favoritadas dentro das armas favoritadas
 SELECT a.tipoMunição, COUNT(*) AS TipoMuniçãoMaisFavoritadas
 FROM armasFavoritos AS af
 JOIN armas AS a ON af.idArma = a.idArma
 GROUP BY a.tipoMunição ORDER BY TipoMuniçãoMaisFavoritadas DESC;                                 
 
-
+-- Arma Mais Favritada
 SELECT a.tipo, COUNT(*) AS vezesFavoritados
 FROM armas AS a
 JOIN armasFavoritos AS af ON a.idArma = af.idArma
 GROUP BY a.tipo
 ORDER BY vezesFavoritados DESC LIMIT 1;
 
+-- Arma Menos Favritada
 SELECT a.tipo, COUNT(*) AS vezesFavoritados
 FROM armas AS a
 JOIN armasFavoritos AS af ON a.idArma = af.idArma
 GROUP BY a.tipo
 ORDER BY vezesFavoritados ASC LIMIT 1;
 
+-- Armas Favoritadas pelo usuario
 SELECT a.nome , a.imagem from armas as a join armasFavoritos as f on a.idArma = f.idArma where f.idUsuario = 4;
 
+-- TESTES
 SELECT idArma,idUsuario FROM armasFavoritos WHERE idUsuario = 1;
+
 
 DELETE FROM armasFavoritos WHERE idArma = 1 AND idUsuario = 1;
 
